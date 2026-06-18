@@ -5,17 +5,17 @@
  * Development documentation
  * OpenAPI spec version: 0.0.0
  */
-import type { GetDroneList200ItemImageUrl } from './getDroneList200ItemImageUrl';
+import type { DroneImageUrl } from './droneImageUrl';
 
-export type GetDroneList200Item = {
+export interface Drone {
   id: string;
   brand: string;
   model: string;
   fullName: string;
-  imageUrl: GetDroneList200ItemImageUrl;
+  imageUrl: DroneImageUrl;
   priceThb: number;
   tankCapacityL: number;
   speedMps: number;
   sprayWidthM: number;
   performanceRaiPerDay: number;
-};
+}

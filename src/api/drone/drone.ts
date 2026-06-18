@@ -28,7 +28,7 @@ import type {
 } from 'axios';
 
 import type {
-  GetDroneList200Item
+  Drone
 } from '.././model';
 
 
@@ -40,7 +40,7 @@ import type {
  */
 export const getDroneList = (
      options?: AxiosRequestConfig
- ): Promise<AxiosResponse<GetDroneList200Item[]>> => {
+ ): Promise<AxiosResponse<Drone[]>> => {
     
     
     return axios.get(

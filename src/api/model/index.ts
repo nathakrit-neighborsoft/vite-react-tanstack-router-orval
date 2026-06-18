@@ -6,5 +6,5 @@
  * OpenAPI spec version: 0.0.0
  */
 
-export * from './getDroneList200Item';
-export * from './getDroneList200ItemImageUrl';
+export * from './drone';
+export * from './droneImageUrl';

@@ -3,7 +3,7 @@ import { defineConfig } from 'orval'
 export default defineConfig({
   drone: {
     input: {
-      target: 'http://localhost:3050/api/openapi/json',
+      target: './openapi.json',
       filters: {
         tags: ['Drone'],
       },

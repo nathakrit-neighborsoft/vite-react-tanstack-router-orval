@@ -6,4 +6,4 @@
  * OpenAPI spec version: 0.0.0
  */
 
-export type GetDroneList200ItemImageUrl = string | null;
+export type DroneImageUrl = string | null;
