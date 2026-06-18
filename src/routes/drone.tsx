@@ -88,7 +88,7 @@ function DroneListPage() {
         </Button>
       </div>
       <ul className="grid gap-3 sm:grid-cols-2">
-        {dronesQuery.data?.data.map((d: Drone) => (
+        {dronesQuery?.data?.map((d: Drone) => (
           <li key={d.id} className="rounded-lg border p-3">
             <p className="font-semibold">
               {d.brand} {d.model}
