@@ -1,0 +1,86 @@
+import { createFileRoute } from '@tanstack/react-router'
+import { useState } from 'react'
+import type { GetApiDrone200Item } from '@/api/model'
+import { authClient } from '@/lib/auth-client'
+import { useGetApiDrone } from '@/lib/api'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+
+export const Route = createFileRoute('/drone')({
+  component: DroneListPage,
+})
+
+function DroneListPage() {
+  const { data: session } = authClient.useSession()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [mode, setMode] = useState<'signin' | 'signup'>('signup')
+
+  const dronesQuery = useGetApiDrone({
+    query: { enabled: !!session },
+  })
+
+  async function submit(e: React.FormEvent) {
+    e.preventDefault()
+    if (mode === 'signup') await authClient.signUp.email({ email, password, name: email })
+    else await authClient.signIn.email({ email, password })
+  }
+
+  if (!session) {
+    return (
+      <form onSubmit={submit} className="mx-auto max-w-sm space-y-3">
+        <h2 className="text-xl font-bold">{mode === 'signup' ? 'Sign up' : 'Sign in'}</h2>
+        <Input
+          type="email"
+          placeholder="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <Input
+          type="password"
+          placeholder="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <Button type="submit">{mode === 'signup' ? 'Sign up' : 'Sign in'}</Button>
+        <Button
+          type="button"
+          variant="ghost"
+          onClick={() => setMode(mode === 'signup' ? 'signin' : 'signup')}
+        >
+          switch to {mode === 'signup' ? 'sign in' : 'sign up'}
+        </Button>
+      </form>
+    )
+  }
+
+  if (dronesQuery.isLoading) return <p>Loading drones…</p>
+  if (dronesQuery.isError)
+    return <p className="text-red-600">Error: {String(dronesQuery.error)}</p>
+
+  return (
+    <div>
+      <div className="mb-4 flex items-center justify-between">
+        <h2 className="text-xl font-bold">Drones</h2>
+        <Button variant="outline" onClick={() => authClient.signOut()}>
+          Sign out
+        </Button>
+      </div>
+      <ul className="grid gap-3 sm:grid-cols-2">
+        {dronesQuery.data?.data.map((d: GetApiDrone200Item) => (
+          <li key={d.id} className="rounded-lg border p-3">
+            <p className="font-semibold">
+              {d.brand} {d.model}
+            </p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">{d.fullName}</p>
+            <p>
+              ฿{d.priceThb.toLocaleString()} • {d.tankCapacityL}L • {d.performanceRaiPerDay} rai/day
+            </p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
