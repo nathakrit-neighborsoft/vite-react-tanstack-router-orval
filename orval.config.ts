@@ -16,15 +16,6 @@ export default defineConfig({
       httpClient: 'axios',
       mock: false,
       clean: true,
-      override: {
-        query: {
-          useQuery: true,
-          useInfinite: true,
-          options: {
-            staleTime: 30_000,
-          },
-        },
-      },
     },
     hooks: {
       afterAllFilesWrite: 'prettier --write',

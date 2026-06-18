@@ -6,21 +6,16 @@
  * OpenAPI spec version: 0.0.0
  */
 import {
-  useInfiniteQuery,
   useQuery
 } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
-  DefinedUseInfiniteQueryResult,
   DefinedUseQueryResult,
-  InfiniteData,
   QueryClient,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
-  UseInfiniteQueryOptions,
-  UseInfiniteQueryResult,
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query';
@@ -56,12 +51,6 @@ export const getApiDrone = (
 
 
 
-export const getGetApiDroneInfiniteQueryKey = () => {
-    return [
-    'infinite', `/api/drone`
-    ] as const;
-    }
-
 export const getGetApiDroneQueryKey = () => {
     return [
     `/api/drone`
@@ -69,73 +58,6 @@ export const getGetApiDroneQueryKey = () => {
     }
 
     
-export const getGetApiDroneInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getApiDrone>>>, TError = AxiosError<unknown>>( options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiDrone>>, TError, TData>>, axios?: AxiosRequestConfig}
-) => {
-
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetApiDroneInfiniteQueryKey();
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiDrone>>> = ({ signal }) => getApiDrone({ signal, ...axiosOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn,   staleTime: 30000,  ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiDrone>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetApiDroneInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getApiDrone>>>
-export type GetApiDroneInfiniteQueryError = AxiosError<unknown>
-
-
-export function useGetApiDroneInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiDrone>>>, TError = AxiosError<unknown>>(
-  options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiDrone>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiDrone>>,
-          TError,
-          Awaited<ReturnType<typeof getApiDrone>>
-        > , 'initialData'
-      >, axios?: AxiosRequestConfig}
- , queryClient?: QueryClient
-  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiDroneInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiDrone>>>, TError = AxiosError<unknown>>(
-  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiDrone>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiDrone>>,
-          TError,
-          Awaited<ReturnType<typeof getApiDrone>>
-        > , 'initialData'
-      >, axios?: AxiosRequestConfig}
- , queryClient?: QueryClient
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiDroneInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiDrone>>>, TError = AxiosError<unknown>>(
-  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiDrone>>, TError, TData>>, axios?: AxiosRequestConfig}
- , queryClient?: QueryClient
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-/**
- * @summary Get drone list
- */
-
-export function useGetApiDroneInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiDrone>>>, TError = AxiosError<unknown>>(
-  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiDrone>>, TError, TData>>, axios?: AxiosRequestConfig}
- , queryClient?: QueryClient 
- ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getGetApiDroneInfiniteQueryOptions(options)
-
-  const query = useInfiniteQuery(queryOptions, queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
-
-
-
 export const getGetApiDroneQueryOptions = <TData = Awaited<ReturnType<typeof getApiDrone>>, TError = AxiosError<unknown>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiDrone>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
 
@@ -151,7 +73,7 @@ const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn,   staleTime: 30000,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiDrone>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiDrone>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiDroneQueryResult = NonNullable<Awaited<ReturnType<typeof getApiDrone>>>
