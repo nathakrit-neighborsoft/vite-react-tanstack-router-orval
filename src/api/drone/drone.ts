@@ -25,6 +25,13 @@ import type {
   UseQueryResult
 } from '@tanstack/react-query';
 
+import axios from 'axios';
+import type {
+  AxiosError,
+  AxiosRequestConfig,
+  AxiosResponse
+} from 'axios';
+
 import type {
   GetApiDrone200Item
 } from '.././model';
@@ -36,43 +43,15 @@ import type {
 /**
  * @summary Get drone list
  */
-export type getApiDroneResponse200 = {
-  data: GetApiDrone200Item[]
-  status: 200
-}
-    
-export type getApiDroneResponseSuccess = (getApiDroneResponse200) & {
-  headers: Headers;
-};
-;
-
-export type getApiDroneResponse = (getApiDroneResponseSuccess)
-
-export const getGetApiDroneUrl = () => {
-
-
-  
-
-  return `/api/drone`
-}
-
-export const getApiDrone = async ( options?: RequestInit): Promise<getApiDroneResponse> => {
-  
-  const res = await fetch(getGetApiDroneUrl(),
-  {      
-    ...options,
-    method: 'GET'
+export const getApiDrone = (
+     options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<GetApiDrone200Item[]>> => {
     
     
+    return axios.get(
+      `/api/drone`,options
+    );
   }
-)
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-  
-  const data: getApiDroneResponse['data'] = body ? JSON.parse(body) : {}
-  return { data, status: res.status, headers: res.headers } as getApiDroneResponse
-}
-
 
 
 
@@ -90,16 +69,16 @@ export const getGetApiDroneQueryKey = () => {
     }
 
     
-export const getGetApiDroneInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getApiDrone>>>, TError = unknown>( options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiDrone>>, TError, TData>>, fetch?: RequestInit}
+export const getGetApiDroneInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getApiDrone>>>, TError = AxiosError<unknown>>( options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiDrone>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
 
-const {query: queryOptions, fetch: fetchOptions} = options ?? {};
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getGetApiDroneInfiniteQueryKey();
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiDrone>>> = ({ signal }) => getApiDrone({ signal, ...fetchOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiDrone>>> = ({ signal }) => getApiDrone({ signal, ...axiosOptions });
 
       
 
@@ -109,39 +88,39 @@ const {query: queryOptions, fetch: fetchOptions} = options ?? {};
 }
 
 export type GetApiDroneInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getApiDrone>>>
-export type GetApiDroneInfiniteQueryError = unknown
+export type GetApiDroneInfiniteQueryError = AxiosError<unknown>
 
 
-export function useGetApiDroneInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiDrone>>>, TError = unknown>(
+export function useGetApiDroneInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiDrone>>>, TError = AxiosError<unknown>>(
   options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiDrone>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getApiDrone>>,
           TError,
           Awaited<ReturnType<typeof getApiDrone>>
         > , 'initialData'
-      >, fetch?: RequestInit}
+      >, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient
   ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiDroneInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiDrone>>>, TError = unknown>(
+export function useGetApiDroneInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiDrone>>>, TError = AxiosError<unknown>>(
   options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiDrone>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getApiDrone>>,
           TError,
           Awaited<ReturnType<typeof getApiDrone>>
         > , 'initialData'
-      >, fetch?: RequestInit}
+      >, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient
   ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiDroneInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiDrone>>>, TError = unknown>(
-  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiDrone>>, TError, TData>>, fetch?: RequestInit}
+export function useGetApiDroneInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiDrone>>>, TError = AxiosError<unknown>>(
+  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiDrone>>, TError, TData>>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient
   ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary Get drone list
  */
 
-export function useGetApiDroneInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiDrone>>>, TError = unknown>(
-  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiDrone>>, TError, TData>>, fetch?: RequestInit}
+export function useGetApiDroneInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiDrone>>>, TError = AxiosError<unknown>>(
+  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiDrone>>, TError, TData>>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient 
  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -157,16 +136,16 @@ export function useGetApiDroneInfinite<TData = InfiniteData<Awaited<ReturnType<t
 
 
 
-export const getGetApiDroneQueryOptions = <TData = Awaited<ReturnType<typeof getApiDrone>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiDrone>>, TError, TData>>, fetch?: RequestInit}
+export const getGetApiDroneQueryOptions = <TData = Awaited<ReturnType<typeof getApiDrone>>, TError = AxiosError<unknown>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiDrone>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
 
-const {query: queryOptions, fetch: fetchOptions} = options ?? {};
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getGetApiDroneQueryKey();
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiDrone>>> = ({ signal }) => getApiDrone({ signal, ...fetchOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiDrone>>> = ({ signal }) => getApiDrone({ signal, ...axiosOptions });
 
       
 
@@ -176,39 +155,39 @@ const {query: queryOptions, fetch: fetchOptions} = options ?? {};
 }
 
 export type GetApiDroneQueryResult = NonNullable<Awaited<ReturnType<typeof getApiDrone>>>
-export type GetApiDroneQueryError = unknown
+export type GetApiDroneQueryError = AxiosError<unknown>
 
 
-export function useGetApiDrone<TData = Awaited<ReturnType<typeof getApiDrone>>, TError = unknown>(
+export function useGetApiDrone<TData = Awaited<ReturnType<typeof getApiDrone>>, TError = AxiosError<unknown>>(
   options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiDrone>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getApiDrone>>,
           TError,
           Awaited<ReturnType<typeof getApiDrone>>
         > , 'initialData'
-      >, fetch?: RequestInit}
+      >, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiDrone<TData = Awaited<ReturnType<typeof getApiDrone>>, TError = unknown>(
+export function useGetApiDrone<TData = Awaited<ReturnType<typeof getApiDrone>>, TError = AxiosError<unknown>>(
   options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiDrone>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getApiDrone>>,
           TError,
           Awaited<ReturnType<typeof getApiDrone>>
         > , 'initialData'
-      >, fetch?: RequestInit}
+      >, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiDrone<TData = Awaited<ReturnType<typeof getApiDrone>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiDrone>>, TError, TData>>, fetch?: RequestInit}
+export function useGetApiDrone<TData = Awaited<ReturnType<typeof getApiDrone>>, TError = AxiosError<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiDrone>>, TError, TData>>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary Get drone list
  */
 
-export function useGetApiDrone<TData = Awaited<ReturnType<typeof getApiDrone>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiDrone>>, TError, TData>>, fetch?: RequestInit}
+export function useGetApiDrone<TData = Awaited<ReturnType<typeof getApiDrone>>, TError = AxiosError<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiDrone>>, TError, TData>>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
