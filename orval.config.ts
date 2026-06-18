@@ -16,6 +16,12 @@ export default defineConfig({
       httpClient: 'axios',
       mock: false,
       clean: true,
+      override: {
+        mutator: {
+          path: './src/lib/http-client.ts',
+          name: 'httpClient',
+        },
+      },
     },
     hooks: {
       afterAllFilesWrite: 'prettier --write',
