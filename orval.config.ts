@@ -14,10 +14,6 @@ export default defineConfig({
       mock: false,
       clean: true,
       override: {
-        mutator: {
-          path: 'src/lib/custom-fetch.ts',
-          name: 'customFetch',
-        },
         query: {
           useQuery: true,
           useInfinite: true,
