@@ -15,6 +15,8 @@ function DroneListPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [mode, setMode] = useState<'signin' | 'signup'>('signup')
+  const [error, setError] = useState<string | null>(null)
+  const [submitting, setSubmitting] = useState(false)
 
   const dronesQuery = useGetApiDrone({
     query: { enabled: !!session },
@@ -22,8 +24,16 @@ function DroneListPage() {
 
   async function submit(e: React.FormEvent) {
     e.preventDefault()
-    if (mode === 'signup') await authClient.signUp.email({ email, password, name: email })
-    else await authClient.signIn.email({ email, password })
+    setError(null)
+    setSubmitting(true)
+    try {
+      if (mode === 'signup') await authClient.signUp.email({ email, password, name: email })
+      else await authClient.signIn.email({ email, password })
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Authentication failed')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   if (!session) {
@@ -44,7 +54,8 @@ function DroneListPage() {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <Button type="submit">{mode === 'signup' ? 'Sign up' : 'Sign in'}</Button>
+        {error && <p className="text-red-600 text-sm">{error}</p>}
+        <Button type="submit" disabled={submitting}>{mode === 'signup' ? 'Sign up' : 'Sign in'}</Button>
         <Button
           type="button"
           variant="ghost"
@@ -64,7 +75,7 @@ function DroneListPage() {
     <div>
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-xl font-bold">Drones</h2>
-        <Button variant="outline" onClick={() => authClient.signOut()}>
+        <Button variant="outline" onClick={async () => { try { await authClient.signOut() } catch { /* ignore */ } }}>
           Sign out
         </Button>
       </div>
