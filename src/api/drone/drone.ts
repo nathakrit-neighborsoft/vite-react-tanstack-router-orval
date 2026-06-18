@@ -28,7 +28,7 @@ import type {
 } from 'axios';
 
 import type {
-  GetApiDrone200Item
+  GetDroneList200Item
 } from '.././model';
 
 
@@ -38,9 +38,9 @@ import type {
 /**
  * @summary Get drone list
  */
-export const getApiDrone = (
+export const getDroneList = (
      options?: AxiosRequestConfig
- ): Promise<AxiosResponse<GetApiDrone200Item[]>> => {
+ ): Promise<AxiosResponse<GetDroneList200Item[]>> => {
     
     
     return axios.get(
@@ -51,69 +51,69 @@ export const getApiDrone = (
 
 
 
-export const getGetApiDroneQueryKey = () => {
+export const getGetDroneListQueryKey = () => {
     return [
     `/api/drone`
     ] as const;
     }
 
     
-export const getGetApiDroneQueryOptions = <TData = Awaited<ReturnType<typeof getApiDrone>>, TError = AxiosError<unknown>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiDrone>>, TError, TData>>, axios?: AxiosRequestConfig}
+export const getGetDroneListQueryOptions = <TData = Awaited<ReturnType<typeof getDroneList>>, TError = AxiosError<unknown>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getDroneList>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
 
 const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetApiDroneQueryKey();
+  const queryKey =  queryOptions?.queryKey ?? getGetDroneListQueryKey();
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiDrone>>> = ({ signal }) => getApiDrone({ signal, ...axiosOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getDroneList>>> = ({ signal }) => getDroneList({ signal, ...axiosOptions });
 
       
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiDrone>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getDroneList>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type GetApiDroneQueryResult = NonNullable<Awaited<ReturnType<typeof getApiDrone>>>
-export type GetApiDroneQueryError = AxiosError<unknown>
+export type GetDroneListQueryResult = NonNullable<Awaited<ReturnType<typeof getDroneList>>>
+export type GetDroneListQueryError = AxiosError<unknown>
 
 
-export function useGetApiDrone<TData = Awaited<ReturnType<typeof getApiDrone>>, TError = AxiosError<unknown>>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiDrone>>, TError, TData>> & Pick<
+export function useGetDroneList<TData = Awaited<ReturnType<typeof getDroneList>>, TError = AxiosError<unknown>>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getDroneList>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiDrone>>,
+          Awaited<ReturnType<typeof getDroneList>>,
           TError,
-          Awaited<ReturnType<typeof getApiDrone>>
+          Awaited<ReturnType<typeof getDroneList>>
         > , 'initialData'
       >, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiDrone<TData = Awaited<ReturnType<typeof getApiDrone>>, TError = AxiosError<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiDrone>>, TError, TData>> & Pick<
+export function useGetDroneList<TData = Awaited<ReturnType<typeof getDroneList>>, TError = AxiosError<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getDroneList>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiDrone>>,
+          Awaited<ReturnType<typeof getDroneList>>,
           TError,
-          Awaited<ReturnType<typeof getApiDrone>>
+          Awaited<ReturnType<typeof getDroneList>>
         > , 'initialData'
       >, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiDrone<TData = Awaited<ReturnType<typeof getApiDrone>>, TError = AxiosError<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiDrone>>, TError, TData>>, axios?: AxiosRequestConfig}
+export function useGetDroneList<TData = Awaited<ReturnType<typeof getDroneList>>, TError = AxiosError<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getDroneList>>, TError, TData>>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary Get drone list
  */
 
-export function useGetApiDrone<TData = Awaited<ReturnType<typeof getApiDrone>>, TError = AxiosError<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiDrone>>, TError, TData>>, axios?: AxiosRequestConfig}
+export function useGetDroneList<TData = Awaited<ReturnType<typeof getDroneList>>, TError = AxiosError<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getDroneList>>, TError, TData>>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getGetApiDroneQueryOptions(options)
+  const queryOptions = getGetDroneListQueryOptions(options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
