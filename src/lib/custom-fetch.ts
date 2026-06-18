@@ -4,10 +4,7 @@ export type CustomFetchError = {
   details?: unknown
 }
 
-export async function customFetch<T>(
-  url: string,
-  options?: RequestInit,
-): Promise<T> {
+export async function customFetch<T>(url: string, options?: RequestInit): Promise<T> {
   const res = await fetch(url, {
     ...options,
     credentials: 'include',

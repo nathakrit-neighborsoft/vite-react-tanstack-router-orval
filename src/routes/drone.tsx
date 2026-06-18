@@ -55,7 +55,9 @@ function DroneListPage() {
           required
         />
         {error && <p className="text-red-600 text-sm">{error}</p>}
-        <Button type="submit" disabled={submitting}>{mode === 'signup' ? 'Sign up' : 'Sign in'}</Button>
+        <Button type="submit" disabled={submitting}>
+          {mode === 'signup' ? 'Sign up' : 'Sign in'}
+        </Button>
         <Button
           type="button"
           variant="ghost"
@@ -68,14 +70,22 @@ function DroneListPage() {
   }
 
   if (dronesQuery.isLoading) return <p>Loading drones…</p>
-  if (dronesQuery.isError)
-    return <p className="text-red-600">Error: {String(dronesQuery.error)}</p>
+  if (dronesQuery.isError) return <p className="text-red-600">Error: {String(dronesQuery.error)}</p>
 
   return (
     <div>
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-xl font-bold">Drones</h2>
-        <Button variant="outline" onClick={async () => { try { await authClient.signOut() } catch { /* ignore */ } }}>
+        <Button
+          variant="outline"
+          onClick={async () => {
+            try {
+              await authClient.signOut()
+            } catch {
+              /* ignore */
+            }
+          }}
+        >
           Sign out
         </Button>
       </div>
