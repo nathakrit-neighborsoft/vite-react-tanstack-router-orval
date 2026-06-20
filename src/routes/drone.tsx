@@ -10,7 +10,11 @@ export const Route = createFileRoute('/drone')({
     try {
       await context.queryClient.ensureQueryData({
         queryKey: dronesKeys.lists(),
-        queryFn: async () => handleEdenResponse(await api.api.drone.get()),
+        queryFn: async () =>
+          handleEdenResponse({
+            result: await api.api.drone.get(),
+            fallbackMessage: 'Request failed',
+          }),
       })
     } catch {
       // user may be unauthenticated — component will gate and show AuthForm
@@ -29,7 +33,5 @@ function DronePage() {
     )
   }
 
-  return (
-    <DroneList onSignOut={() => authClient.signOut().catch(() => {})} />
-  )
+  return <DroneList onSignOut={() => authClient.signOut().catch(() => {})} />
 }
