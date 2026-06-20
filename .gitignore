@@ -24,3 +24,4 @@ yarn-debug.log*
 # misc
 coverage/
 openapi.json
+src/api/server.d.ts

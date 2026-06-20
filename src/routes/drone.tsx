@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
-import type { Drone } from '@/api/drone'
-import { useDroneList } from '@/api/use-drone-list'
+import { api } from '@/api/client'
+import { useEdenQuery } from '@/api/use-eden-query'
 import { authClient } from '@/lib/auth-client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -18,7 +18,11 @@ function DroneListPage() {
   const [error, setError] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
 
-  const dronesQuery = useDroneList(!!session)
+  const dronesQuery = useEdenQuery(
+    ['drones'],
+    () => api.api.drone.get(),
+    { enabled: !!session },
+  )
 
   async function submit(e: React.FormEvent) {
     e.preventDefault()
@@ -88,7 +92,7 @@ function DroneListPage() {
         </Button>
       </div>
       <ul className="grid gap-3 sm:grid-cols-2">
-        {dronesQuery?.data?.map((d: Drone) => (
+        {dronesQuery.data?.map((d) => (
           <li key={d.id} className="rounded-lg border p-3">
             <p className="font-semibold">
               {d.brand} {d.model}
