@@ -1,6 +1,7 @@
 {
   "$schema": "https://cdn.jsdelivr.net/npm/@tanstack/router-cli/latest/schema.json",
   "routeFileIgnorePrefix": "-",
+  "routeFileIgnorePattern": "\\.test\\.(ts|tsx)$",
   "autoCodeSplitting": true,
   "routesDirectory": "./src/routes",
   "generatedRouteTree": "./src/routeTree.gen.ts"

@@ -1,6 +1,5 @@
 import { useQuery, type UseQueryOptions, type UseQueryResult } from '@tanstack/react-query'
-
-type EdenResponse<TData> = { data: TData | null; error: unknown; status?: number }
+import { handleEdenResponse, type EdenResponse } from './eden-helpers'
 
 export function useEdenQuery<TData, TKey extends readonly unknown[]>(
   queryKey: TKey,
@@ -9,11 +8,7 @@ export function useEdenQuery<TData, TKey extends readonly unknown[]>(
 ): UseQueryResult<TData, Error> {
   return useQuery({
     queryKey,
-    queryFn: async () => {
-      const { data, error } = await fn()
-      if (data === null) throw error instanceof Error ? error : new Error(String(error ?? 'Request failed'))
-      return data
-    },
+    queryFn: () => fn().then(handleEdenResponse),
     ...options,
   })
 }
