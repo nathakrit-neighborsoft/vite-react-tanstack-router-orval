@@ -8,7 +8,10 @@ export function useEdenQuery<TData, TKey extends readonly unknown[]>(
 ): UseQueryResult<TData, Error> {
   return useQuery({
     queryKey,
-    queryFn: () => fn().then(handleEdenResponse),
+    queryFn: async () => {
+      const response = await fn()
+      return handleEdenResponse({ result: response, fallbackMessage: 'Request failed' })
+    },
     ...options,
   })
 }

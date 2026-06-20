@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { api } from '@/lib/api/client'
+import { handleEdenResponse } from '@/lib/api/eden-helpers'
 import { dronesKeys } from '../api/keys'
 
 export type CreateDroneInput = {
@@ -19,9 +20,8 @@ export function useCreateDrone() {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: async (input: CreateDroneInput) => {
-      const { data, error } = await api.api.drone.post(input)
-      if (data === null) throw error instanceof Error ? error : new Error(String(error ?? 'Create failed'))
-      return data
+      const res = await api.api.drone.post(input)
+      return handleEdenResponse({ result: res, fallbackMessage: 'Create failed' })
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: dronesKeys.all }),
   })
@@ -31,9 +31,8 @@ export function useUpdateDrone() {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: async ({ id, input }: { id: string; input: UpdateDroneInput }) => {
-      const { data, error } = await api.api.drone({ id }).patch(input)
-      if (data === null) throw error instanceof Error ? error : new Error(String(error ?? 'Update failed'))
-      return data
+      const res = await api.api.drone({ id }).patch(input)
+      return handleEdenResponse({ result: res, fallbackMessage: 'Update failed' })
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: dronesKeys.all }),
   })
@@ -43,9 +42,8 @@ export function useDeleteDrone() {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: async (id: string) => {
-      const { data, error } = await api.api.drone({ id }).delete()
-      if (data === null) throw error instanceof Error ? error : new Error(String(error ?? 'Delete failed'))
-      return data
+      const res = await api.api.drone({ id }).delete()
+      return handleEdenResponse({ result: res, fallbackMessage: 'Delete failed' })
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: dronesKeys.all }),
   })

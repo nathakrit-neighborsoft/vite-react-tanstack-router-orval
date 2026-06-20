@@ -4,9 +4,19 @@ export interface EdenResponse<TData> {
   readonly status?: number
 }
 
-export function handleEdenResponse<T>(result: EdenResponse<T>): T {
+export interface IHandleEdenResponseInput<T> {
+  result: EdenResponse<T>
+  fallbackMessage?: string
+}
+
+export function handleEdenResponse<T>({
+  result,
+  fallbackMessage = 'Request failed',
+}: IHandleEdenResponseInput<T>): T {
   if (result.data === null) {
-    throw result.error instanceof Error ? result.error : new Error(String(result.error ?? 'Request failed'))
+    throw result.error instanceof Error
+      ? result.error
+      : new Error(String(result.error ?? fallbackMessage))
   }
   return result.data
 }
