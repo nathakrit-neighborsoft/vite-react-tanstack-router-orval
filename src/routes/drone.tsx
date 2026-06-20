@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
-import type { Drone } from '@/api/model'
-import { useGetDroneList } from '@/api/drone/drone'
+import type { Drone } from '@/api/drone'
+import { useDroneList } from '@/api/use-drone-list'
 import { authClient } from '@/lib/auth-client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -18,7 +18,7 @@ function DroneListPage() {
   const [error, setError] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
 
-  const dronesQuery = useGetDroneList({ query: { enabled: !!session } })
+  const dronesQuery = useDroneList(!!session)
 
   async function submit(e: React.FormEvent) {
     e.preventDefault()
