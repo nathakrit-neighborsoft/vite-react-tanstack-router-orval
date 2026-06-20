@@ -1,3 +1,6 @@
 export { useDrones } from './hooks/use-drones'
+export { useCreateDrone, useUpdateDrone, useDeleteDrone } from './hooks/use-drone-mutations'
 export { DroneList } from './components/DroneList'
+export { DroneFormDialog } from './components/DroneFormDialog'
+export { DeleteDroneDialog } from './components/DeleteDroneDialog'
 export { dronesKeys } from './api/keys'

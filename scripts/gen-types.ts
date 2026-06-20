@@ -3,7 +3,7 @@
  * Source of truth: elysia-remote-dts plugin serves /server.d.ts
  */
 const SERVER_DTS_URL = process.env.SERVER_DTS_URL ?? 'http://localhost:3050/server.d.ts'
-const OUT_FILE = 'src/api/server.d.ts'
+const OUT_FILE = 'src/lib/api/server.d.ts'
 
 const res = await fetch(SERVER_DTS_URL)
 if (!res.ok) {

@@ -19,7 +19,11 @@
   },
   "dependencies": {
     "@elysiajs/eden": "^1.4.9",
+    "@radix-ui/react-alert-dialog": "^1.1.17",
+    "@radix-ui/react-dialog": "^1.1.17",
+    "@radix-ui/react-label": "^2.1.10",
     "@tanstack/react-query": "^5.62.0",
+    "@tanstack/react-query-devtools": "^5.62.0",
     "@tanstack/react-router": "^1.95.0",
     "better-auth": "^1.5.3",
     "class-variance-authority": "^0.7.1",
@@ -28,7 +32,6 @@
     "elysia": "^1.4.29",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "@tanstack/react-query-devtools": "^5.62.0",
     "tailwind-merge": "^3.0.2"
   },
   "devDependencies": {

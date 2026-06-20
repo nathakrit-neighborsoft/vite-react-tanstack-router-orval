@@ -30,6 +30,17 @@ declare const app: Elysia<"", {
             sprayWidthM: import("@sinclair/typebox").TNumber;
             performanceRaiPerDay: import("@sinclair/typebox").TNumber;
         }>;
+        readonly droneCreateInput: import("@sinclair/typebox").TObject<{
+            brand: import("@sinclair/typebox").TString;
+            model: import("@sinclair/typebox").TString;
+            fullName: import("@sinclair/typebox").TString;
+            priceThb: import("@sinclair/typebox").TNumber;
+            tankCapacityL: import("@sinclair/typebox").TNumber;
+            speedMps: import("@sinclair/typebox").TNumber;
+            sprayWidthM: import("@sinclair/typebox").TNumber;
+            performanceRaiPerDay: import("@sinclair/typebox").TNumber;
+        }>;
+        readonly droneUpdateInput: import("node_modules/@sinclair/typebox/build/esm/type/computed/computed.mjs").TComputed<"Partial", [import("@sinclair/typebox").TRef<"droneCreateInput">]>;
     };
     error: {};
 } & {
@@ -133,6 +144,146 @@ declare const app: Elysia<"", {
                         found?: unknown;
                         property?: string;
                         expected?: string;
+                    };
+                };
+            };
+        };
+    } & {
+        drone: {
+            ":id": {
+                get: {
+                    body: unknown;
+                    params: {
+                        id: string;
+                    } & {};
+                    query: unknown;
+                    headers: unknown;
+                    response: {
+                        200: {
+                            id: string;
+                            brand: string;
+                            model: string;
+                            fullName: string;
+                            imageUrl: string | null;
+                            priceThb: number;
+                            tankCapacityL: number;
+                            speedMps: number;
+                            sprayWidthM: number;
+                            performanceRaiPerDay: number;
+                        };
+                        422: {
+                            type: "validation";
+                            on: string;
+                            summary?: string;
+                            message?: string;
+                            found?: unknown;
+                            property?: string;
+                            expected?: string;
+                        };
+                    };
+                };
+            };
+        };
+    } & {
+        drone: {
+            post: {
+                body: {
+                    brand: string;
+                    model: string;
+                    fullName: string;
+                    priceThb: number;
+                    tankCapacityL: number;
+                    speedMps: number;
+                    sprayWidthM: number;
+                    performanceRaiPerDay: number;
+                };
+                params: {};
+                query: unknown;
+                headers: unknown;
+                response: {
+                    200: {
+                        id: string;
+                        brand: string;
+                        model: string;
+                        fullName: string;
+                        imageUrl: string | null;
+                        priceThb: number;
+                        tankCapacityL: number;
+                        speedMps: number;
+                        sprayWidthM: number;
+                        performanceRaiPerDay: number;
+                    };
+                    422: {
+                        type: "validation";
+                        on: string;
+                        summary?: string;
+                        message?: string;
+                        found?: unknown;
+                        property?: string;
+                        expected?: string;
+                    };
+                };
+            };
+        };
+    } & {
+        drone: {
+            ":id": {
+                patch: {
+                    body: unknown;
+                    params: {
+                        id: string;
+                    } & {};
+                    query: unknown;
+                    headers: unknown;
+                    response: {
+                        200: {
+                            id: string;
+                            brand: string;
+                            model: string;
+                            fullName: string;
+                            imageUrl: string | null;
+                            priceThb: number;
+                            tankCapacityL: number;
+                            speedMps: number;
+                            sprayWidthM: number;
+                            performanceRaiPerDay: number;
+                        };
+                        422: {
+                            type: "validation";
+                            on: string;
+                            summary?: string;
+                            message?: string;
+                            found?: unknown;
+                            property?: string;
+                            expected?: string;
+                        };
+                    };
+                };
+            };
+        };
+    } & {
+        drone: {
+            ":id": {
+                delete: {
+                    body: unknown;
+                    params: {
+                        id: string;
+                    } & {};
+                    query: unknown;
+                    headers: unknown;
+                    response: {
+                        200: {
+                            success: true;
+                        };
+                        422: {
+                            type: "validation";
+                            on: string;
+                            summary?: string;
+                            message?: string;
+                            found?: unknown;
+                            property?: string;
+                            expected?: string;
+                        };
                     };
                 };
             };
