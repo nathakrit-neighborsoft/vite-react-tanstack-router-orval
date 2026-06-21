@@ -13,7 +13,7 @@ import { useDeleteDrone } from '../hooks/use-drone-mutations'
 type Props = {
   open: boolean
   onOpenChange: (open: boolean) => void
-  drone: { id: string; brand: string; model: string } | null
+  drone: { id: number; company: string; model: string } | null
 }
 
 export function DeleteDroneDialog({ open, onOpenChange, drone }: Props) {
@@ -35,7 +35,7 @@ export function DeleteDroneDialog({ open, onOpenChange, drone }: Props) {
         <AlertDialogHeader>
           <AlertDialogTitle>Delete drone?</AlertDialogTitle>
           <AlertDialogDescription>
-            This will permanently delete {drone?.brand} {drone?.model}. This action cannot be undone.
+            This will permanently delete {drone?.company} {drone?.model}. This action cannot be undone.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

@@ -3,15 +3,16 @@ import { DroneForm, type DroneFormValues } from './DroneForm'
 import { useCreateDrone, useUpdateDrone } from '../hooks/use-drone-mutations'
 
 type DroneLike = {
-  id: string
-  brand: string
+  id: number
+  company: string
   model: string
   fullName: string
-  priceThb: number
-  tankCapacityL: number
-  speedMps: number
-  sprayWidthM: number
-  performanceRaiPerDay: number
+  priceRTF: number
+  tankCapacity: number
+  flightSpeed: number
+  sprayWidth: number
+  coveragePerDay: number
+  rtfEquipment: string
 }
 
 type Props = {

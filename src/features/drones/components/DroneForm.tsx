@@ -4,14 +4,15 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 export type DroneFormValues = {
-  brand: string
+  company: string
   model: string
   fullName: string
-  priceThb: number
-  tankCapacityL: number
-  speedMps: number
-  sprayWidthM: number
-  performanceRaiPerDay: number
+  priceRTF: number
+  tankCapacity: number
+  flightSpeed: number
+  sprayWidth: number
+  coveragePerDay: number
+  rtfEquipment: string
 }
 
 type DroneFormProps = {
@@ -22,28 +23,29 @@ type DroneFormProps = {
 }
 
 export function DroneForm({ initial, submitting, error, onSubmit }: DroneFormProps) {
-  const [brand, setBrand] = useState(initial?.brand ?? '')
+  const [company, setCompany] = useState(initial?.company ?? '')
   const [model, setModel] = useState(initial?.model ?? '')
   const [fullName, setFullName] = useState(initial?.fullName ?? '')
-  const [priceThb, setPriceThb] = useState(String(initial?.priceThb ?? ''))
-  const [tankCapacityL, setTankCapacityL] = useState(String(initial?.tankCapacityL ?? ''))
-  const [speedMps, setSpeedMps] = useState(String(initial?.speedMps ?? ''))
-  const [sprayWidthM, setSprayWidthM] = useState(String(initial?.sprayWidthM ?? ''))
-  const [performanceRaiPerDay, setPerformanceRaiPerDay] = useState(String(initial?.performanceRaiPerDay ?? ''))
+  const [rtfEquipment, setRtfEquipment] = useState(initial?.rtfEquipment ?? '')
+  const [priceRTF, setPriceRTF] = useState(String(initial?.priceRTF ?? ''))
+  const [tankCapacity, setTankCapacity] = useState(String(initial?.tankCapacity ?? ''))
+  const [flightSpeed, setFlightSpeed] = useState(String(initial?.flightSpeed ?? ''))
+  const [sprayWidth, setSprayWidth] = useState(String(initial?.sprayWidth ?? ''))
+  const [coveragePerDay, setCoveragePerDay] = useState(String(initial?.coveragePerDay ?? ''))
   const [formError, setFormError] = useState<string | null>(null)
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault()
-    if (!brand.trim() || !model.trim() || !fullName.trim()) {
-      setFormError('Brand, model, and full name are required')
+    if (!company.trim() || !model.trim() || !fullName.trim() || !rtfEquipment.trim()) {
+      setFormError('Company, model, full name, and RTF equipment are required')
       return
     }
     const parsed = {
-      priceThb: Number(priceThb),
-      tankCapacityL: Number(tankCapacityL),
-      speedMps: Number(speedMps),
-      sprayWidthM: Number(sprayWidthM),
-      performanceRaiPerDay: Number(performanceRaiPerDay),
+      priceRTF: Number(priceRTF),
+      tankCapacity: Number(tankCapacity),
+      flightSpeed: Number(flightSpeed),
+      sprayWidth: Number(sprayWidth),
+      coveragePerDay: Number(coveragePerDay),
     }
     for (const [k, v] of Object.entries(parsed)) {
       if (!Number.isFinite(v) || v <= 0) {
@@ -52,15 +54,15 @@ export function DroneForm({ initial, submitting, error, onSubmit }: DroneFormPro
       }
     }
     setFormError(null)
-    onSubmit({ brand, model, fullName, ...parsed })
+    onSubmit({ company, model, fullName, rtfEquipment, ...parsed })
   }
 
   const shownError = formError ?? error
 
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
-      <Field label="Brand" id="brand">
-        <Input id="brand" value={brand} onChange={(e) => setBrand(e.target.value)} required />
+      <Field label="Company" id="company">
+        <Input id="company" value={company} onChange={(e) => setCompany(e.target.value)} required />
       </Field>
       <Field label="Model" id="model">
         <Input id="model" value={model} onChange={(e) => setModel(e.target.value)} required />
@@ -68,20 +70,23 @@ export function DroneForm({ initial, submitting, error, onSubmit }: DroneFormPro
       <Field label="Full name" id="fullName">
         <Input id="fullName" value={fullName} onChange={(e) => setFullName(e.target.value)} required />
       </Field>
-      <Field label="Price (THB)" id="priceThb">
-        <Input id="priceThb" type="number" step="any" min="0" value={priceThb} onChange={(e) => setPriceThb(e.target.value)} required />
+      <Field label="RTF equipment" id="rtfEquipment">
+        <Input id="rtfEquipment" value={rtfEquipment} onChange={(e) => setRtfEquipment(e.target.value)} required />
       </Field>
-      <Field label="Tank capacity (L)" id="tankCapacityL">
-        <Input id="tankCapacityL" type="number" step="any" min="0" value={tankCapacityL} onChange={(e) => setTankCapacityL(e.target.value)} required />
+      <Field label="Price (RTF)" id="priceRTF">
+        <Input id="priceRTF" type="number" step="any" min="0" value={priceRTF} onChange={(e) => setPriceRTF(e.target.value)} required />
       </Field>
-      <Field label="Speed (m/s)" id="speedMps">
-        <Input id="speedMps" type="number" step="any" min="0" value={speedMps} onChange={(e) => setSpeedMps(e.target.value)} required />
+      <Field label="Tank capacity" id="tankCapacity">
+        <Input id="tankCapacity" type="number" step="any" min="0" value={tankCapacity} onChange={(e) => setTankCapacity(e.target.value)} required />
       </Field>
-      <Field label="Spray width (m)" id="sprayWidthM">
-        <Input id="sprayWidthM" type="number" step="any" min="0" value={sprayWidthM} onChange={(e) => setSprayWidthM(e.target.value)} required />
+      <Field label="Flight speed" id="flightSpeed">
+        <Input id="flightSpeed" type="number" step="any" min="0" value={flightSpeed} onChange={(e) => setFlightSpeed(e.target.value)} required />
       </Field>
-      <Field label="Performance (rai/day)" id="performanceRaiPerDay">
-        <Input id="performanceRaiPerDay" type="number" step="any" min="0" value={performanceRaiPerDay} onChange={(e) => setPerformanceRaiPerDay(e.target.value)} required />
+      <Field label="Spray width" id="sprayWidth">
+        <Input id="sprayWidth" type="number" step="any" min="0" value={sprayWidth} onChange={(e) => setSprayWidth(e.target.value)} required />
+      </Field>
+      <Field label="Coverage per day" id="coveragePerDay">
+        <Input id="coveragePerDay" type="number" step="any" min="0" value={coveragePerDay} onChange={(e) => setCoveragePerDay(e.target.value)} required />
       </Field>
       {shownError && <p className="text-sm text-red-600">{shownError}</p>}
       <div className="flex justify-end gap-2 pt-2">

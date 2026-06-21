@@ -19,28 +19,39 @@ declare const app: Elysia<"", {
 } & {
     typebox: {
         readonly drone: import("@sinclair/typebox").TObject<{
-            id: import("@sinclair/typebox").TString;
-            brand: import("@sinclair/typebox").TString;
+            id: import("@sinclair/typebox").TNumber;
+            company: import("@sinclair/typebox").TString;
             model: import("@sinclair/typebox").TString;
             fullName: import("@sinclair/typebox").TString;
-            imageUrl: import("@sinclair/typebox").TUnion<[import("@sinclair/typebox").TString, import("@sinclair/typebox").TNull]>;
-            priceThb: import("@sinclair/typebox").TNumber;
-            tankCapacityL: import("@sinclair/typebox").TNumber;
-            speedMps: import("@sinclair/typebox").TNumber;
-            sprayWidthM: import("@sinclair/typebox").TNumber;
-            performanceRaiPerDay: import("@sinclair/typebox").TNumber;
+            priceRTF: import("@sinclair/typebox").TNumber;
+            tankCapacity: import("@sinclair/typebox").TNumber;
+            flightSpeed: import("@sinclair/typebox").TNumber;
+            sprayWidth: import("@sinclair/typebox").TNumber;
+            coveragePerDay: import("@sinclair/typebox").TNumber;
+            rtfEquipment: import("@sinclair/typebox").TString;
         }>;
         readonly droneCreateInput: import("@sinclair/typebox").TObject<{
-            brand: import("@sinclair/typebox").TString;
+            company: import("@sinclair/typebox").TString;
             model: import("@sinclair/typebox").TString;
             fullName: import("@sinclair/typebox").TString;
-            priceThb: import("@sinclair/typebox").TNumber;
-            tankCapacityL: import("@sinclair/typebox").TNumber;
-            speedMps: import("@sinclair/typebox").TNumber;
-            sprayWidthM: import("@sinclair/typebox").TNumber;
-            performanceRaiPerDay: import("@sinclair/typebox").TNumber;
+            priceRTF: import("@sinclair/typebox").TNumber;
+            tankCapacity: import("@sinclair/typebox").TNumber;
+            flightSpeed: import("@sinclair/typebox").TNumber;
+            sprayWidth: import("@sinclair/typebox").TNumber;
+            coveragePerDay: import("@sinclair/typebox").TNumber;
+            rtfEquipment: import("@sinclair/typebox").TString;
         }>;
-        readonly droneUpdateInput: import("node_modules/@sinclair/typebox/build/esm/type/computed/computed.mjs").TComputed<"Partial", [import("@sinclair/typebox").TRef<"droneCreateInput">]>;
+        readonly droneUpdateInput: import("@sinclair/typebox").TObject<{
+            company: import("@sinclair/typebox").TOptional<import("@sinclair/typebox").TString>;
+            model: import("@sinclair/typebox").TOptional<import("@sinclair/typebox").TString>;
+            fullName: import("@sinclair/typebox").TOptional<import("@sinclair/typebox").TString>;
+            priceRTF: import("@sinclair/typebox").TOptional<import("@sinclair/typebox").TNumber>;
+            tankCapacity: import("@sinclair/typebox").TOptional<import("@sinclair/typebox").TNumber>;
+            flightSpeed: import("@sinclair/typebox").TOptional<import("@sinclair/typebox").TNumber>;
+            sprayWidth: import("@sinclair/typebox").TOptional<import("@sinclair/typebox").TNumber>;
+            coveragePerDay: import("@sinclair/typebox").TOptional<import("@sinclair/typebox").TNumber>;
+            rtfEquipment: import("@sinclair/typebox").TOptional<import("@sinclair/typebox").TString>;
+        }>;
     };
     error: {};
 } & {
@@ -125,16 +136,16 @@ declare const app: Elysia<"", {
                 headers: unknown;
                 response: {
                     200: {
-                        id: string;
-                        brand: string;
+                        id: number;
+                        company: string;
                         model: string;
                         fullName: string;
-                        imageUrl: string | null;
-                        priceThb: number;
-                        tankCapacityL: number;
-                        speedMps: number;
-                        sprayWidthM: number;
-                        performanceRaiPerDay: number;
+                        priceRTF: number;
+                        tankCapacity: number;
+                        flightSpeed: number;
+                        sprayWidth: number;
+                        coveragePerDay: number;
+                        rtfEquipment: string;
                     }[];
                     422: {
                         type: "validation";
@@ -160,16 +171,16 @@ declare const app: Elysia<"", {
                     headers: unknown;
                     response: {
                         200: {
-                            id: string;
-                            brand: string;
+                            id: number;
+                            company: string;
                             model: string;
                             fullName: string;
-                            imageUrl: string | null;
-                            priceThb: number;
-                            tankCapacityL: number;
-                            speedMps: number;
-                            sprayWidthM: number;
-                            performanceRaiPerDay: number;
+                            priceRTF: number;
+                            tankCapacity: number;
+                            flightSpeed: number;
+                            sprayWidth: number;
+                            coveragePerDay: number;
+                            rtfEquipment: string;
                         };
                         422: {
                             type: "validation";
@@ -188,30 +199,31 @@ declare const app: Elysia<"", {
         drone: {
             post: {
                 body: {
-                    brand: string;
+                    company: string;
                     model: string;
                     fullName: string;
-                    priceThb: number;
-                    tankCapacityL: number;
-                    speedMps: number;
-                    sprayWidthM: number;
-                    performanceRaiPerDay: number;
+                    priceRTF: number;
+                    tankCapacity: number;
+                    flightSpeed: number;
+                    sprayWidth: number;
+                    coveragePerDay: number;
+                    rtfEquipment: string;
                 };
                 params: {};
                 query: unknown;
                 headers: unknown;
                 response: {
                     200: {
-                        id: string;
-                        brand: string;
+                        id: number;
+                        company: string;
                         model: string;
                         fullName: string;
-                        imageUrl: string | null;
-                        priceThb: number;
-                        tankCapacityL: number;
-                        speedMps: number;
-                        sprayWidthM: number;
-                        performanceRaiPerDay: number;
+                        priceRTF: number;
+                        tankCapacity: number;
+                        flightSpeed: number;
+                        sprayWidth: number;
+                        coveragePerDay: number;
+                        rtfEquipment: string;
                     };
                     422: {
                         type: "validation";
@@ -229,7 +241,17 @@ declare const app: Elysia<"", {
         drone: {
             ":id": {
                 patch: {
-                    body: unknown;
+                    body: {
+                        company?: string | undefined;
+                        model?: string | undefined;
+                        fullName?: string | undefined;
+                        priceRTF?: number | undefined;
+                        tankCapacity?: number | undefined;
+                        flightSpeed?: number | undefined;
+                        sprayWidth?: number | undefined;
+                        coveragePerDay?: number | undefined;
+                        rtfEquipment?: string | undefined;
+                    };
                     params: {
                         id: string;
                     } & {};
@@ -237,16 +259,16 @@ declare const app: Elysia<"", {
                     headers: unknown;
                     response: {
                         200: {
-                            id: string;
-                            brand: string;
+                            id: number;
+                            company: string;
                             model: string;
                             fullName: string;
-                            imageUrl: string | null;
-                            priceThb: number;
-                            tankCapacityL: number;
-                            speedMps: number;
-                            sprayWidthM: number;
-                            performanceRaiPerDay: number;
+                            priceRTF: number;
+                            tankCapacity: number;
+                            flightSpeed: number;
+                            sprayWidth: number;
+                            coveragePerDay: number;
+                            rtfEquipment: string;
                         };
                         422: {
                             type: "validation";

@@ -5,15 +5,16 @@ import { DroneFormDialog } from './DroneFormDialog'
 import { DeleteDroneDialog } from './DeleteDroneDialog'
 
 type Drone = {
-  id: string
-  brand: string
+  id: number
+  company: string
   model: string
   fullName: string
-  priceThb: number
-  tankCapacityL: number
-  speedMps: number
-  sprayWidthM: number
-  performanceRaiPerDay: number
+  priceRTF: number
+  tankCapacity: number
+  flightSpeed: number
+  sprayWidth: number
+  coveragePerDay: number
+  rtfEquipment: string
 }
 
 export function DroneList({ onSignOut }: { onSignOut?: () => void }) {
@@ -49,9 +50,9 @@ export function DroneList({ onSignOut }: { onSignOut?: () => void }) {
           <li key={d.id} className="rounded-lg border p-3">
             <div className="flex items-start justify-between gap-2">
               <div>
-                <p className="font-semibold">{d.brand} {d.model}</p>
+                <p className="font-semibold">{d.company} {d.model}</p>
                 <p className="text-sm text-gray-600 dark:text-gray-400">{d.fullName}</p>
-                <p>฿{d.priceThb.toLocaleString()} • {d.tankCapacityL}L • {d.performanceRaiPerDay} rai/day</p>
+                <p>฿{d.priceRTF.toLocaleString()} • {d.tankCapacity}L • {d.coveragePerDay} rai/day</p>
               </div>
               <div className="flex shrink-0 gap-1">
                 <Button size="sm" variant="ghost" onClick={() => openEdit(d)}>Edit</Button>

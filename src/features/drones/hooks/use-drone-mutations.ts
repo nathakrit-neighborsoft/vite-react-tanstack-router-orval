@@ -4,14 +4,15 @@ import { handleEdenResponse } from '@/lib/api/eden-helpers'
 import { dronesKeys } from '../api/keys'
 
 export type CreateDroneInput = {
-  brand: string
+  company: string
   model: string
   fullName: string
-  priceThb: number
-  tankCapacityL: number
-  speedMps: number
-  sprayWidthM: number
-  performanceRaiPerDay: number
+  priceRTF: number
+  tankCapacity: number
+  flightSpeed: number
+  sprayWidth: number
+  coveragePerDay: number
+  rtfEquipment: string
 }
 
 export type UpdateDroneInput = Partial<CreateDroneInput>
@@ -30,7 +31,7 @@ export function useCreateDrone() {
 export function useUpdateDrone() {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: async ({ id, input }: { id: string; input: UpdateDroneInput }) => {
+    mutationFn: async ({ id, input }: { id: number; input: UpdateDroneInput }) => {
       const res = await api.api.drone({ id }).patch(input)
       return handleEdenResponse({ result: res, fallbackMessage: 'Update failed' })
     },
@@ -41,7 +42,7 @@ export function useUpdateDrone() {
 export function useDeleteDrone() {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: async (id: string) => {
+    mutationFn: async (id: number) => {
       const res = await api.api.drone({ id }).delete()
       return handleEdenResponse({ result: res, fallbackMessage: 'Delete failed' })
     },
