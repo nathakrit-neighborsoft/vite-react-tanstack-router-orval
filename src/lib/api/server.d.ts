@@ -1,7 +1,6 @@
 import { Elysia } from 'elysia';
 import 'reflect-metadata';
 import './lib/dayjs-config';
-import './modules/drone/drone.module';
 declare const app: Elysia<"", {
     decorator: {};
     store: {};
