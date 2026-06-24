@@ -15,8 +15,14 @@ export function AuthForm({ onSuccess }: { onSuccess?: () => void }) {
     setError(null)
     setSubmitting(true)
     try {
-      if (mode === 'signup') await authClient.signUp.email({ email, password, name: email })
-      else await authClient.signIn.email({ email, password })
+      const result =
+        mode === 'signup'
+          ? await authClient.signUp.email({ email, password, name: email })
+          : await authClient.signIn.email({ email, password })
+      if (result.error) {
+        setError(result.error.message)
+        return
+      }
       onSuccess?.()
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Authentication failed')
