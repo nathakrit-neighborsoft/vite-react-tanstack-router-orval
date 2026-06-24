@@ -25,3 +25,6 @@ yarn-debug.log*
 coverage/
 openapi.json
 src/api/server.d.ts
+
+# codegraph
+.codegraph/
