@@ -16,13 +16,13 @@ Mechanical field-by-field rename across the four drone feature files plus the qu
 
 ## Side by Side
 
-| Scenario | Before | After |
-| -------- | ------ | ----- |
-| POST `/drone` body | `{ brand, priceThb, tankCapacityL, speedMps, sprayWidthM, performanceRaiPerDay }` (no `rtfEquipment` → 422) | `{ company, priceRTF, tankCapacity, flightSpeed, sprayWidth, coveragePerDay, rtfEquipment }` |
-| Drone card display | `{brand} {model}`, `฿{priceThb}…` | `{company} {model}`, `฿{priceRTF}…` |
-| Delete mutation | `remove.mutateAsync(drone.id)` where `id: string` | `remove.mutateAsync(drone.id)` where `id: number` |
-| Form validation | 8 fields | 9 fields (adds RTF equipment) |
-| `dronesKeys.detail(id)` | `(id: string)` | `(id: number)` |
+| Scenario                | Before                                                                                                      | After                                                                                        |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| POST `/drone` body      | `{ brand, priceThb, tankCapacityL, speedMps, sprayWidthM, performanceRaiPerDay }` (no `rtfEquipment` → 422) | `{ company, priceRTF, tankCapacity, flightSpeed, sprayWidth, coveragePerDay, rtfEquipment }` |
+| Drone card display      | `{brand} {model}`, `฿{priceThb}…`                                                                           | `{company} {model}`, `฿{priceRTF}…`                                                          |
+| Delete mutation         | `remove.mutateAsync(drone.id)` where `id: string`                                                           | `remove.mutateAsync(drone.id)` where `id: number`                                            |
+| Form validation         | 8 fields                                                                                                    | 9 fields (adds RTF equipment)                                                                |
+| `dronesKeys.detail(id)` | `(id: string)`                                                                                              | `(id: number)`                                                                               |
 
 ## Assumptions & Risks
 
@@ -172,16 +172,17 @@ export type DroneFormValues = {
 
 For each field in the type, rename in lockstep:
 
-| Old state | New state |
-| --- | --- |
-| `brand` | `company` |
-| `priceThb` | `priceRTF` |
-| `tankCapacityL` | `tankCapacity` |
-| `speedMps` | `flightSpeed` |
-| `sprayWidthM` | `sprayWidth` |
+| Old state              | New state        |
+| ---------------------- | ---------------- |
+| `brand`                | `company`        |
+| `priceThb`             | `priceRTF`       |
+| `tankCapacityL`        | `tankCapacity`   |
+| `speedMps`             | `flightSpeed`    |
+| `sprayWidthM`          | `sprayWidth`     |
 | `performanceRaiPerDay` | `coveragePerDay` |
 
 For example:
+
 - `const [brand, setBrand] = useState(initial?.brand ?? '')` → `const [company, setCompany] = useState(initial?.company ?? '')`
 - `const [priceThb, setPriceThb] = useState(String(initial?.priceThb ?? ''))` → `const [priceRTF, setPriceRTF] = useState(String(initial?.priceRTF ?? ''))`
 
@@ -226,20 +227,25 @@ onSubmit({ company, model, fullName, rtfEquipment, ...parsed })
 
 - [ ] **Step 5: Update JSX — rename existing Field labels, ids, and add the new RTF equipment Field**
 
-| Old | New |
-| --- | --- |
-| `label="Brand"` `id="brand"` | `label="Company"` `id="company"` |
-| `label="Price (THB)"` `id="priceThb"` | `label="Price (RTF)"` `id="priceRTF"` |
-| `label="Tank capacity (L)"` `id="tankCapacityL"` | `label="Tank capacity"` `id="tankCapacity"` |
-| `label="Speed (m/s)"` `id="speedMps"` | `label="Flight speed"` `id="flightSpeed"` |
-| `label="Spray width (m)"` `id="sprayWidthM"` | `label="Spray width"` `id="sprayWidth"` |
+| Old                                                         | New                                              |
+| ----------------------------------------------------------- | ------------------------------------------------ |
+| `label="Brand"` `id="brand"`                                | `label="Company"` `id="company"`                 |
+| `label="Price (THB)"` `id="priceThb"`                       | `label="Price (RTF)"` `id="priceRTF"`            |
+| `label="Tank capacity (L)"` `id="tankCapacityL"`            | `label="Tank capacity"` `id="tankCapacity"`      |
+| `label="Speed (m/s)"` `id="speedMps"`                       | `label="Flight speed"` `id="flightSpeed"`        |
+| `label="Spray width (m)"` `id="sprayWidthM"`                | `label="Spray width"` `id="sprayWidth"`          |
 | `label="Performance (rai/day)"` `id="performanceRaiPerDay"` | `label="Coverage per day"` `id="coveragePerDay"` |
 
 Insert this Field block after the Full name Field (before the renamed Price Field):
 
 ```tsx
 <Field label="RTF equipment" id="rtfEquipment">
-  <Input id="rtfEquipment" value={rtfEquipment} onChange={(e) => setRtfEquipment(e.target.value)} required />
+  <Input
+    id="rtfEquipment"
+    value={rtfEquipment}
+    onChange={(e) => setRtfEquipment(e.target.value)}
+    required
+  />
 </Field>
 ```
 

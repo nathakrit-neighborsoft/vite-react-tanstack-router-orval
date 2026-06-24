@@ -20,9 +20,7 @@ try {
   await Bun.write(OUT_FILE, text)
   console.log(`✓ ${OUT_FILE} written (${text.length} bytes)`)
 } catch (err) {
-  console.warn(
-    `⚠  Backend not reachable at ${SERVER_DTS_URL} — keeping existing ${OUT_FILE}`,
-  )
+  console.warn(`⚠  Backend not reachable at ${SERVER_DTS_URL} — keeping existing ${OUT_FILE}`)
   console.warn(`  ${(err as Error).message}`)
   process.exit(0)
 }

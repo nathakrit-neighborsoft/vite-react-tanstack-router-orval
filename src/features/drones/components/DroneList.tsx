@@ -42,7 +42,9 @@ export function DroneList({ onSignOut }: { onSignOut?: () => void }) {
         <h2 className="text-xl font-bold">Drones</h2>
         <div className="flex gap-2">
           <Button onClick={openCreate}>Add drone</Button>
-          <Button variant="outline" onClick={() => onSignOut?.()}>Sign out</Button>
+          <Button variant="outline" onClick={() => onSignOut?.()}>
+            Sign out
+          </Button>
         </div>
       </div>
       <ul className="grid gap-3 sm:grid-cols-2">
@@ -50,13 +52,26 @@ export function DroneList({ onSignOut }: { onSignOut?: () => void }) {
           <li key={d.id} className="rounded-lg border p-3">
             <div className="flex items-start justify-between gap-2">
               <div>
-                <p className="font-semibold">{d.company} {d.model}</p>
+                <p className="font-semibold">
+                  {d.company} {d.model}
+                </p>
                 <p className="text-sm text-gray-600 dark:text-gray-400">{d.fullName}</p>
-                <p>฿{d.priceRTF.toLocaleString()} • {d.tankCapacity}L • {d.coveragePerDay} rai/day</p>
+                <p>
+                  ฿{d.priceRTF.toLocaleString()} • {d.tankCapacity}L • {d.coveragePerDay} rai/day
+                </p>
               </div>
               <div className="flex shrink-0 gap-1">
-                <Button size="sm" variant="ghost" onClick={() => openEdit(d)}>Edit</Button>
-                <Button size="sm" variant="ghost" className="text-red-600" onClick={() => setDeleting(d)}>Delete</Button>
+                <Button size="sm" variant="ghost" onClick={() => openEdit(d)}>
+                  Edit
+                </Button>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className="text-red-600"
+                  onClick={() => setDeleting(d)}
+                >
+                  Delete
+                </Button>
               </div>
             </div>
           </li>
@@ -64,7 +79,13 @@ export function DroneList({ onSignOut }: { onSignOut?: () => void }) {
       </ul>
 
       <DroneFormDialog open={formOpen} onOpenChange={setFormOpen} drone={editing} />
-      <DeleteDroneDialog open={!!deleting} onOpenChange={(o) => { if (!o) setDeleting(null) }} drone={deleting} />
+      <DeleteDroneDialog
+        open={!!deleting}
+        onOpenChange={(o) => {
+          if (!o) setDeleting(null)
+        }}
+        drone={deleting}
+      />
     </div>
   )
 }

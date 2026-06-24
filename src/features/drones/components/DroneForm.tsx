@@ -68,29 +68,81 @@ export function DroneForm({ initial, submitting, error, onSubmit }: DroneFormPro
         <Input id="model" value={model} onChange={(e) => setModel(e.target.value)} required />
       </Field>
       <Field label="Full name" id="fullName">
-        <Input id="fullName" value={fullName} onChange={(e) => setFullName(e.target.value)} required />
+        <Input
+          id="fullName"
+          value={fullName}
+          onChange={(e) => setFullName(e.target.value)}
+          required
+        />
       </Field>
       <Field label="RTF equipment" id="rtfEquipment">
-        <Input id="rtfEquipment" value={rtfEquipment} onChange={(e) => setRtfEquipment(e.target.value)} required />
+        <Input
+          id="rtfEquipment"
+          value={rtfEquipment}
+          onChange={(e) => setRtfEquipment(e.target.value)}
+          required
+        />
       </Field>
       <Field label="Price (RTF)" id="priceRTF">
-        <Input id="priceRTF" type="number" step="any" min="0" value={priceRTF} onChange={(e) => setPriceRTF(e.target.value)} required />
+        <Input
+          id="priceRTF"
+          type="number"
+          step="any"
+          min="0"
+          value={priceRTF}
+          onChange={(e) => setPriceRTF(e.target.value)}
+          required
+        />
       </Field>
       <Field label="Tank capacity" id="tankCapacity">
-        <Input id="tankCapacity" type="number" step="any" min="0" value={tankCapacity} onChange={(e) => setTankCapacity(e.target.value)} required />
+        <Input
+          id="tankCapacity"
+          type="number"
+          step="any"
+          min="0"
+          value={tankCapacity}
+          onChange={(e) => setTankCapacity(e.target.value)}
+          required
+        />
       </Field>
       <Field label="Flight speed" id="flightSpeed">
-        <Input id="flightSpeed" type="number" step="any" min="0" value={flightSpeed} onChange={(e) => setFlightSpeed(e.target.value)} required />
+        <Input
+          id="flightSpeed"
+          type="number"
+          step="any"
+          min="0"
+          value={flightSpeed}
+          onChange={(e) => setFlightSpeed(e.target.value)}
+          required
+        />
       </Field>
       <Field label="Spray width" id="sprayWidth">
-        <Input id="sprayWidth" type="number" step="any" min="0" value={sprayWidth} onChange={(e) => setSprayWidth(e.target.value)} required />
+        <Input
+          id="sprayWidth"
+          type="number"
+          step="any"
+          min="0"
+          value={sprayWidth}
+          onChange={(e) => setSprayWidth(e.target.value)}
+          required
+        />
       </Field>
       <Field label="Coverage per day" id="coveragePerDay">
-        <Input id="coveragePerDay" type="number" step="any" min="0" value={coveragePerDay} onChange={(e) => setCoveragePerDay(e.target.value)} required />
+        <Input
+          id="coveragePerDay"
+          type="number"
+          step="any"
+          min="0"
+          value={coveragePerDay}
+          onChange={(e) => setCoveragePerDay(e.target.value)}
+          required
+        />
       </Field>
       {shownError && <p className="text-sm text-red-600">{shownError}</p>}
       <div className="flex justify-end gap-2 pt-2">
-        <Button type="submit" disabled={submitting}>{submitting ? 'Saving\u2026' : 'Save'}</Button>
+        <Button type="submit" disabled={submitting}>
+          {submitting ? 'Saving\u2026' : 'Save'}
+        </Button>
       </div>
     </form>
   )

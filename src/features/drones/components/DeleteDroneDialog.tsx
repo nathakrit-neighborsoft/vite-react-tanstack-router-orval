@@ -35,7 +35,8 @@ export function DeleteDroneDialog({ open, onOpenChange, drone }: Props) {
         <AlertDialogHeader>
           <AlertDialogTitle>Delete drone?</AlertDialogTitle>
           <AlertDialogDescription>
-            This will permanently delete {drone?.company} {drone?.model}. This action cannot be undone.
+            This will permanently delete {drone?.company} {drone?.model}. This action cannot be
+            undone.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

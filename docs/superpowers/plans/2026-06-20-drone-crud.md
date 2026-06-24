@@ -23,13 +23,13 @@ Cache strategy: invalidate + refetch (simple; list is small). No optimistic upda
 
 ## Side by Side
 
-| Scenario | Before | After |
-| -------- | ------ | ----- |
-| Add a drone | Not possible | `[Add drone]` opens Dialog → POST → list refreshes |
-| Edit a drone | Not possible | Edit button on card opens Dialog pre-filled → PATCH → list refreshes |
-| Delete a drone | Not possible | Delete button on card → AlertDialog confirm → DELETE → list refreshes |
-| Mutation error | n/a | Eden error shown in Dialog footer |
-| Type safety | Only GET typed | Full CRUD typed via regenerated `server.d.ts` |
+| Scenario       | Before         | After                                                                 |
+| -------------- | -------------- | --------------------------------------------------------------------- |
+| Add a drone    | Not possible   | `[Add drone]` opens Dialog → POST → list refreshes                    |
+| Edit a drone   | Not possible   | Edit button on card opens Dialog pre-filled → PATCH → list refreshes  |
+| Delete a drone | Not possible   | Delete button on card → AlertDialog confirm → DELETE → list refreshes |
+| Mutation error | n/a            | Eden error shown in Dialog footer                                     |
+| Type safety    | Only GET typed | Full CRUD typed via regenerated `server.d.ts`                         |
 
 ## Assumptions & Risks
 
@@ -62,6 +62,7 @@ Cache strategy: invalidate + refetch (simple; list is small). No optimistic upda
 ### Task 1: Regenerate Eden types
 
 **Files:**
+
 - Modify: `src/lib/api/server.d.ts` (regenerated, not hand-edited)
 
 - [ ] **Step 1: Confirm backend is running**
@@ -103,6 +104,7 @@ Commit message: `chore: regenerate eden types for drone CRUD`
 ### Task 2: Add shadcn primitives (Dialog, AlertDialog, Label)
 
 **Files:**
+
 - Create: `src/components/ui/dialog.tsx`
 - Create: `src/components/ui/alert-dialog.tsx`
 - Create: `src/components/ui/label.tsx`
@@ -126,11 +128,7 @@ export const Label = forwardRef<
   ElementRef<typeof Primitive.label>,
   ComponentPropsWithoutRef<typeof Primitive.label>
 >(({ className, ...props }, ref) => (
-  <label
-    ref={ref}
-    className={cn('text-sm font-medium leading-none', className)}
-    {...props}
-  />
+  <label ref={ref} className={cn('text-sm font-medium leading-none', className)} {...props} />
 ))
 Label.displayName = 'Label'
 ```
@@ -158,6 +156,7 @@ Commit message: `feat(ui): add shadcn dialog, alert-dialog, label primitives`
 ### Task 3: Add drone mutations + extend key factory
 
 **Files:**
+
 - Modify: `src/features/drones/api/keys.ts`
 - Create: `src/features/drones/hooks/use-drone-mutations.ts`
 - Modify: `src/features/drones/index.ts`
@@ -189,7 +188,8 @@ export function useCreateDrone() {
   return useMutation({
     mutationFn: async (input: CreateDroneInput) => {
       const { data, error } = await api.api.drone.post(input)
-      if (data === null) throw error instanceof Error ? error : new Error(String(error ?? 'Create failed'))
+      if (data === null)
+        throw error instanceof Error ? error : new Error(String(error ?? 'Create failed'))
       return data
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: dronesKeys.all }),
@@ -201,7 +201,8 @@ export function useUpdateDrone() {
   return useMutation({
     mutationFn: async ({ id, input }: { id: string; input: UpdateDroneInput }) => {
       const { data, error } = await api.api.drone[id].patch(input)
-      if (data === null) throw error instanceof Error ? error : new Error(String(error ?? 'Update failed'))
+      if (data === null)
+        throw error instanceof Error ? error : new Error(String(error ?? 'Update failed'))
       return data
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: dronesKeys.all }),
@@ -213,7 +214,8 @@ export function useDeleteDrone() {
   return useMutation({
     mutationFn: async (id: string) => {
       const { data, error } = await api.api.drone[id].delete()
-      if (data === null) throw error instanceof Error ? error : new Error(String(error ?? 'Delete failed'))
+      if (data === null)
+        throw error instanceof Error ? error : new Error(String(error ?? 'Delete failed'))
       return data
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: dronesKeys.all }),
@@ -261,6 +263,7 @@ Commit message: `feat(drones): add create/update/delete mutations + detail key`
 ### Task 4: Build DroneForm
 
 **Files:**
+
 - Create: `src/features/drones/components/DroneForm.tsx`
 
 - [ ] **Step 1: Create `DroneForm.tsx`**
@@ -307,7 +310,9 @@ export function DroneForm({ initial, submitting, error, onSubmit }: DroneFormPro
   const [tankCapacityL, setTankCapacityL] = useState(String(initial?.tankCapacityL ?? ''))
   const [speedMps, setSpeedMps] = useState(String(initial?.speedMps ?? ''))
   const [sprayWidthM, setSprayWidthM] = useState(String(initial?.sprayWidthM ?? ''))
-  const [performanceRaiPerDay, setPerformanceRaiPerDay] = useState(String(initial?.performanceRaiPerDay ?? ''))
+  const [performanceRaiPerDay, setPerformanceRaiPerDay] = useState(
+    String(initial?.performanceRaiPerDay ?? ''),
+  )
   const [formError, setFormError] = useState<string | null>(null)
 
   function submit(e: FormEvent) {
@@ -317,7 +322,13 @@ export function DroneForm({ initial, submitting, error, onSubmit }: DroneFormPro
       setFormError('brand, model, fullName are required')
       return
     }
-    const parsed = { priceThb: Number(priceThb), tankCapacityL: Number(tankCapacityL), speedMps: Number(speedMps), sprayWidthM: Number(sprayWidthM), performanceRaiPerDay: Number(performanceRaiPerDay) }
+    const parsed = {
+      priceThb: Number(priceThb),
+      tankCapacityL: Number(tankCapacityL),
+      speedMps: Number(speedMps),
+      sprayWidthM: Number(sprayWidthM),
+      performanceRaiPerDay: Number(performanceRaiPerDay),
+    }
     for (const [k, v] of Object.entries(parsed)) {
       if (!Number.isFinite(v) || v <= 0) {
         setFormError(`${k} must be a positive number`)
@@ -342,12 +353,19 @@ export function DroneForm({ initial, submitting, error, onSubmit }: DroneFormPro
       </div>
       <div className="space-y-1">
         <Label htmlFor="fullName">Full name</Label>
-        <Input id="fullName" value={fullName} onChange={(e) => setFullName(e.target.value)} required />
+        <Input
+          id="fullName"
+          value={fullName}
+          onChange={(e) => setFullName(e.target.value)}
+          required
+        />
       </div>
       {/* repeat the same block for each numeric field: priceThb, tankCapacityL, speedMps, sprayWidthM, performanceRaiPerDay — type="number" step="any" min="0" */}
       {shownError && <p className="text-sm text-red-600">{shownError}</p>}
       <div className="flex justify-end gap-2 pt-2">
-        <Button type="submit" disabled={submitting}>{submitting ? 'Saving…' : 'Save'}</Button>
+        <Button type="submit" disabled={submitting}>
+          {submitting ? 'Saving…' : 'Save'}
+        </Button>
       </div>
     </form>
   )
@@ -355,6 +373,7 @@ export function DroneForm({ initial, submitting, error, onSubmit }: DroneFormPro
 ```
 
 Notes for implementer:
+
 - Render all 5 numeric fields with the same `<div className="space-y-1">` block, `type="number"`, `step="any"`, `min="0"`.
 - `onSubmit` is fire-and-forget from the form's perspective; the parent (Dialog) handles the mutation + closing on success.
 - Numeric inputs are kept as strings in state to allow empty intermediate values; parse on submit.
@@ -372,6 +391,7 @@ Commit message: `feat(drones): add DroneForm component`
 ### Task 5: Build DroneFormDialog + DeleteDroneDialog
 
 **Files:**
+
 - Create: `src/features/drones/components/DroneFormDialog.tsx`
 - Create: `src/features/drones/components/DeleteDroneDialog.tsx`
 
@@ -380,7 +400,13 @@ Commit message: `feat(drones): add DroneForm component`
 Wraps shadcn Dialog + DroneForm. Handles create OR edit based on whether `drone` is passed.
 
 ```tsx
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from '@/components/ui/dialog'
 import { DroneForm } from './DroneForm'
 import { useCreateDrone, useUpdateDrone } from '../hooks/use-drone-mutations'
 
@@ -407,7 +433,13 @@ export function DroneFormDialog({ open, onOpenChange, drone }: Props) {
   const update = useUpdateDrone()
   const isEdit = !!drone
 
-  async function handleSubmit(values: Parameters<typeof DroneForm>[0] extends { onSubmit: infer F } ? F extends (v: infer V) => void ? V : never : never) {
+  async function handleSubmit(
+    values: Parameters<typeof DroneForm>[0] extends { onSubmit: infer F }
+      ? F extends (v: infer V) => void
+        ? V
+        : never
+      : never,
+  ) {
     try {
       if (isEdit && drone) {
         await update.mutateAsync({ id: drone.id, input: values })
@@ -486,7 +518,8 @@ export function DeleteDroneDialog({ open, onOpenChange, drone }: Props) {
         <AlertDialogHeader>
           <AlertDialogTitle>Delete drone?</AlertDialogTitle>
           <AlertDialogDescription>
-            This will permanently delete {drone?.brand} {drone?.model}. This action cannot be undone.
+            This will permanently delete {drone?.brand} {drone?.model}. This action cannot be
+            undone.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -518,6 +551,7 @@ Commit message: `feat(drones): add DroneFormDialog and DeleteDroneDialog`
 ### Task 6: Wire CRUD into DroneList + barrel + final verify
 
 **Files:**
+
 - Modify: `src/features/drones/components/DroneList.tsx`
 - Modify: `src/features/drones/index.ts`
 - Modify (optional): `src/routes/drone.tsx` (only if Dialog state needs hoisting — prefer local state in DroneList)
@@ -567,7 +601,9 @@ export function DroneList({ onSignOut }: { onSignOut?: () => void }) {
         <h2 className="text-xl font-bold">Drones</h2>
         <div className="flex gap-2">
           <Button onClick={openCreate}>Add drone</Button>
-          <Button variant="outline" onClick={() => onSignOut?.()}>Sign out</Button>
+          <Button variant="outline" onClick={() => onSignOut?.()}>
+            Sign out
+          </Button>
         </div>
       </div>
       <ul className="grid gap-3 sm:grid-cols-2">
@@ -575,13 +611,27 @@ export function DroneList({ onSignOut }: { onSignOut?: () => void }) {
           <li key={d.id} className="rounded-lg border p-3">
             <div className="flex items-start justify-between gap-2">
               <div>
-                <p className="font-semibold">{d.brand} {d.model}</p>
+                <p className="font-semibold">
+                  {d.brand} {d.model}
+                </p>
                 <p className="text-sm text-gray-600 dark:text-gray-400">{d.fullName}</p>
-                <p>฿{d.priceThb.toLocaleString()} • {d.tankCapacityL}L • {d.performanceRaiPerDay} rai/day</p>
+                <p>
+                  ฿{d.priceThb.toLocaleString()} • {d.tankCapacityL}L • {d.performanceRaiPerDay}{' '}
+                  rai/day
+                </p>
               </div>
               <div className="flex shrink-0 gap-1">
-                <Button size="sm" variant="ghost" onClick={() => openEdit(d)}>Edit</Button>
-                <Button size="sm" variant="ghost" className="text-red-600" onClick={() => setDeleting(d)}>Delete</Button>
+                <Button size="sm" variant="ghost" onClick={() => openEdit(d)}>
+                  Edit
+                </Button>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className="text-red-600"
+                  onClick={() => setDeleting(d)}
+                >
+                  Delete
+                </Button>
               </div>
             </div>
           </li>
@@ -589,7 +639,13 @@ export function DroneList({ onSignOut }: { onSignOut?: () => void }) {
       </ul>
 
       <DroneFormDialog open={formOpen} onOpenChange={setFormOpen} drone={editing} />
-      <DeleteDroneDialog open={!!deleting} onOpenChange={(o) => { if (!o) setDeleting(null) }} drone={deleting} />
+      <DeleteDroneDialog
+        open={!!deleting}
+        onOpenChange={(o) => {
+          if (!o) setDeleting(null)
+        }}
+        drone={deleting}
+      />
     </div>
   )
 }

@@ -2,5 +2,5 @@ node_modules
 dist
 bun.lock
 coverage
-src/api
+src/lib/api/server.d.ts
 src/routeTree.gen.ts
