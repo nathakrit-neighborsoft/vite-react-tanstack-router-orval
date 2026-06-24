@@ -1,0 +1,18 @@
+pre-commit:
+  parallel: true
+  jobs:
+    - run: bun run prettier --check {staged_files}
+      glob: '*.{ts,tsx}'
+      name: '🎨 Format check'
+
+    - run: bun run oxlint {staged_files}
+      glob: '*.{ts,tsx}'
+      name: '📝 Lint'
+
+    - run: bun run test:coverage
+      name: '🧪 API test coverage'
+
+commit-msg:
+  jobs:
+    - run: bun run commitlint --edit {1}
+      name: '📋 Commit message lint'
