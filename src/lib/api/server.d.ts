@@ -1,6 +1,6 @@
 import { Elysia } from 'elysia';
 import 'reflect-metadata';
-import './lib/dayjs-config';
+import './lib/config/dayjs.config';
 declare const app: Elysia<"", {
     decorator: {};
     store: {};
