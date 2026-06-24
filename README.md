@@ -1,32 +1,129 @@
-# vite-react-tanstack-router-client
+# vite-react-tanstack-router-eden
 
-Frontend for the Drone monorepo backend. Consumes the API via Eden Treaty (RPC) and TanStack Query.
+Frontend client for the Drone monorepo backend. It is a Vite + React app that uses TanStack Router, TanStack Query, Better Auth, and Eden Treaty for typed API calls to an Elysia backend.
+
+## Features
+
+- File-based routes with TanStack Router
+- Auth-gated drone management page
+- Drone list/create/update/delete flows via Eden Treaty
+- React Query caching and mutation invalidation
+- Tailwind CSS v4 styling with shadcn/ui-style components
+- Vite dev proxy for local backend integration
+- Nginx runtime image for production builds
 
 ## Stack
 
-- Vite + React 19 + TanStack Router (file-based)
-- TanStack Query v5
-- `@elysiajs/eden` (Eden Treaty — typed RPC client backed by `elysia-remote-dts` types)
-- better-auth/react (auth client)
-- Tailwind v4 + shadcn/ui
+- Bun 1.3
+- Vite 8 + React 19
+- TypeScript 5.9
+- TanStack Router 1.95
+- TanStack Query 5
+- `@elysiajs/eden` for typed RPC calls
+- `better-auth/react` for auth client state
+- Tailwind CSS v4
+- Vitest, Testing Library, oxlint, Prettier
 
-## Develop
+## Requirements
+
+- [Bun](https://bun.sh/) 1.3+
+- Drone monorepo backend running on `http://localhost:3050` for local API/auth calls
+
+## Getting started
 
 ```bash
 bun install
-bun run gen:types  # fetch server.d.ts from :3050, write to src/lib/api/server.d.ts
-bun run dev        # Vite on :3000, proxies /api + /auth to :3050
+cp .env.example .env
+bun run gen:types
+bun run dev
 ```
 
-The api must be running locally before `bun run gen:types` will work.
+Open `http://localhost:3000`.
 
-## API URL
+`bun run dev` starts Vite on port `3000` and proxies local API traffic to the backend on port `3050`:
 
-By default the app uses the Vite dev server proxy (`/api` → `:3050`).
-In production the nginx reverse proxy handles this.
+- `/api/*` -> `http://localhost:3050/api/*`
+- `/auth/*` -> `http://localhost:3050/api/auth/*`
 
-To connect directly to a backend on a different origin, set:
+## Environment variables
+
+```env
+# Empty = use same-origin Vite/nginx proxy
+VITE_API_URL=
+VITE_APP_TITLE=Drone Client
+```
+
+Set `VITE_API_URL` only when calling a backend on a different origin, for example:
 
 ```env
 VITE_API_URL=http://localhost:3050
 ```
+
+Do not include `/api` in `VITE_API_URL`; Eden Treaty appends server route paths itself.
+
+## API types
+
+The app expects generated server types at `src/lib/api/server.d.ts`.
+
+```bash
+bun run gen:types
+```
+
+This fetches `http://localhost:3050/server.d.ts`. If the backend is unreachable, the script keeps the existing generated types so local dev can still start with the last known API contract.
+
+## Scripts
+
+| Command                | Description                                                |
+| ---------------------- | ---------------------------------------------------------- |
+| `bun run dev`          | Generate API types, then start Vite on port `3000`         |
+| `bun run build`        | Run TypeScript checks and build production assets          |
+| `bun run preview`      | Preview the production build locally on port `3000`        |
+| `bun run test`         | Run Vitest once                                            |
+| `bun run test:watch`   | Run Vitest in watch mode                                   |
+| `bun run typecheck`    | Run `tsc --noEmit`                                         |
+| `bun run gen:types`    | Fetch backend `server.d.ts` into `src/lib/api/server.d.ts` |
+| `bun run lint`         | Run oxlint                                                 |
+| `bun run lint:fix`     | Run oxlint with fixes                                      |
+| `bun run format`       | Format files with Prettier                                 |
+| `bun run format:check` | Check formatting with Prettier                             |
+
+## App routes
+
+| Route    | Purpose                                 |
+| -------- | --------------------------------------- |
+| `/`      | Home page with link to drone management |
+| `/drone` | Auth-gated drone list and CRUD UI       |
+
+## Project structure
+
+```text
+src/
+  app/                 Router and shared app setup
+  components/ui/       Reusable UI primitives
+  features/auth/       Better Auth client and auth form
+  features/drones/     Drone API hooks and CRUD components
+  lib/api/             Eden Treaty client and helpers
+  routes/              TanStack Router file routes
+  env.ts               Vite environment defaults
+```
+
+## Production build
+
+```bash
+bun run build
+```
+
+The Docker image builds static assets with Bun, then serves `dist/` from nginx:
+
+```bash
+docker build -t drone-client .
+docker run --rm -p 8080:80 drone-client
+```
+
+The included `nginx.conf` serves the SPA and proxies API traffic to an upstream service named `api` on port `3050`.
+
+## Troubleshooting
+
+- **Auth or drone requests fail in dev**: confirm the backend is running on `http://localhost:3050`.
+- **Eden types are stale**: start the backend, then run `bun run gen:types`.
+- **Direct backend URL fails**: ensure `VITE_API_URL` is only the origin, not an `/api` path.
