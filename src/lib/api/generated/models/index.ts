@@ -7,8 +7,8 @@
  */
 
 export * from './createDroneDto'
-export * from './droneControllerGetAllOrder'
-export * from './droneControllerGetAllParams'
-export * from './droneControllerGetAllSort'
 export * from './droneResponseDto'
+export * from './getDronesOrder'
+export * from './getDronesParams'
+export * from './getDronesSort'
 export * from './updateDroneDto'

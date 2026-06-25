@@ -6,10 +6,9 @@
  * OpenAPI spec version: 1.0
  */
 
-export type DroneControllerGetAllSort =
-  (typeof DroneControllerGetAllSort)[keyof typeof DroneControllerGetAllSort]
+export type GetDronesSort = (typeof GetDronesSort)[keyof typeof GetDronesSort]
 
-export const DroneControllerGetAllSort = {
+export const GetDronesSort = {
   company: 'company',
   model: 'model',
   fullName: 'fullName',

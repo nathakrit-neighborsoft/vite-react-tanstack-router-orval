@@ -34,7 +34,7 @@ vi.mock('@/features/notifications/notify', () => ({
 }))
 
 vi.mock('@/lib/api/generated/drones/drones', () => ({
-  droneControllerGetAll: vi.fn(),
+  getDrones: vi.fn(),
 }))
 
 describe('/drone route', () => {

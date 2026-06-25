@@ -21,12 +21,7 @@ import type {
   UseQueryResult,
 } from '@tanstack/react-query'
 
-import type {
-  CreateDroneDto,
-  DroneControllerGetAllParams,
-  DroneResponseDto,
-  UpdateDroneDto,
-} from '../models'
+import type { CreateDroneDto, DroneResponseDto, GetDronesParams, UpdateDroneDto } from '../models'
 
 import { customInstance } from '../../mutator'
 import type { ErrorType } from '../../mutator'
@@ -48,28 +43,26 @@ const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKe
   return result
 }
 
-export type droneControllerGetAllResponse200 = {
+export type getDronesResponse200 = {
   data: DroneResponseDto[]
   status: 200
 }
 
-export type droneControllerGetAllResponse500 = {
+export type getDronesResponse500 = {
   data: void
   status: 500
 }
 
-export type droneControllerGetAllResponseSuccess = droneControllerGetAllResponse200 & {
+export type getDronesResponseSuccess = getDronesResponse200 & {
   headers: Headers
 }
-export type droneControllerGetAllResponseError = droneControllerGetAllResponse500 & {
+export type getDronesResponseError = getDronesResponse500 & {
   headers: Headers
 }
 
-export type droneControllerGetAllResponse =
-  | droneControllerGetAllResponseSuccess
-  | droneControllerGetAllResponseError
+export type getDronesResponse = getDronesResponseSuccess | getDronesResponseError
 
-export const getDroneControllerGetAllUrl = (params?: DroneControllerGetAllParams) => {
+export const getGetDronesUrl = (params?: GetDronesParams) => {
   const normalizedParams = new URLSearchParams()
 
   Object.entries(params || {}).forEach(([key, value]) => {
@@ -86,65 +79,59 @@ export const getDroneControllerGetAllUrl = (params?: DroneControllerGetAllParams
 /**
  * @summary Get all drones
  */
-export const droneControllerGetAll = async (
-  params?: DroneControllerGetAllParams,
+export const getDrones = async (
+  params?: GetDronesParams,
   options?: RequestInit,
-): Promise<droneControllerGetAllResponse> => {
-  return customInstance<droneControllerGetAllResponse>(getDroneControllerGetAllUrl(params), {
+): Promise<getDronesResponse> => {
+  return customInstance<getDronesResponse>(getGetDronesUrl(params), {
     ...options,
     method: 'GET',
   })
 }
 
-export const getDroneControllerGetAllQueryKey = (params?: DroneControllerGetAllParams) => {
+export const getGetDronesQueryKey = (params?: GetDronesParams) => {
   return [`/drones`, ...(params ? [params] : [])] as const
 }
 
-export const getDroneControllerGetAllQueryOptions = <
-  TData = Awaited<ReturnType<typeof droneControllerGetAll>>,
+export const getGetDronesQueryOptions = <
+  TData = Awaited<ReturnType<typeof getDrones>>,
   TError = ErrorType<void>,
 >(
-  params?: DroneControllerGetAllParams,
+  params?: GetDronesParams,
   options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof droneControllerGetAll>>, TError, TData>
-    >
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getDrones>>, TError, TData>>
     request?: SecondParameter<typeof customInstance>
   },
 ) => {
   const { query: queryOptions, request: requestOptions } = options ?? {}
 
-  const queryKey = queryOptions?.queryKey ?? getDroneControllerGetAllQueryKey(params)
+  const queryKey = queryOptions?.queryKey ?? getGetDronesQueryKey(params)
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof droneControllerGetAll>>> = ({ signal }) =>
-    droneControllerGetAll(params, { signal, ...requestOptions })
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getDrones>>> = ({ signal }) =>
+    getDrones(params, { signal, ...requestOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof droneControllerGetAll>>,
+    Awaited<ReturnType<typeof getDrones>>,
     TError,
     TData
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type DroneControllerGetAllQueryResult = NonNullable<
-  Awaited<ReturnType<typeof droneControllerGetAll>>
->
-export type DroneControllerGetAllQueryError = ErrorType<void>
+export type GetDronesQueryResult = NonNullable<Awaited<ReturnType<typeof getDrones>>>
+export type GetDronesQueryError = ErrorType<void>
 
-export function useDroneControllerGetAll<
-  TData = Awaited<ReturnType<typeof droneControllerGetAll>>,
+export function useGetDrones<
+  TData = Awaited<ReturnType<typeof getDrones>>,
   TError = ErrorType<void>,
 >(
-  params: undefined | DroneControllerGetAllParams,
+  params: undefined | GetDronesParams,
   options: {
-    query: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof droneControllerGetAll>>, TError, TData>
-    > &
+    query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getDrones>>, TError, TData>> &
       Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof droneControllerGetAll>>,
+          Awaited<ReturnType<typeof getDrones>>,
           TError,
-          Awaited<ReturnType<typeof droneControllerGetAll>>
+          Awaited<ReturnType<typeof getDrones>>
         >,
         'initialData'
       >
@@ -152,20 +139,18 @@ export function useDroneControllerGetAll<
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useDroneControllerGetAll<
-  TData = Awaited<ReturnType<typeof droneControllerGetAll>>,
+export function useGetDrones<
+  TData = Awaited<ReturnType<typeof getDrones>>,
   TError = ErrorType<void>,
 >(
-  params?: DroneControllerGetAllParams,
+  params?: GetDronesParams,
   options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof droneControllerGetAll>>, TError, TData>
-    > &
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getDrones>>, TError, TData>> &
       Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof droneControllerGetAll>>,
+          Awaited<ReturnType<typeof getDrones>>,
           TError,
-          Awaited<ReturnType<typeof droneControllerGetAll>>
+          Awaited<ReturnType<typeof getDrones>>
         >,
         'initialData'
       >
@@ -173,15 +158,13 @@ export function useDroneControllerGetAll<
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useDroneControllerGetAll<
-  TData = Awaited<ReturnType<typeof droneControllerGetAll>>,
+export function useGetDrones<
+  TData = Awaited<ReturnType<typeof getDrones>>,
   TError = ErrorType<void>,
 >(
-  params?: DroneControllerGetAllParams,
+  params?: GetDronesParams,
   options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof droneControllerGetAll>>, TError, TData>
-    >
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getDrones>>, TError, TData>>
     request?: SecondParameter<typeof customInstance>
   },
   queryClient?: QueryClient,
@@ -190,20 +173,18 @@ export function useDroneControllerGetAll<
  * @summary Get all drones
  */
 
-export function useDroneControllerGetAll<
-  TData = Awaited<ReturnType<typeof droneControllerGetAll>>,
+export function useGetDrones<
+  TData = Awaited<ReturnType<typeof getDrones>>,
   TError = ErrorType<void>,
 >(
-  params?: DroneControllerGetAllParams,
+  params?: GetDronesParams,
   options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof droneControllerGetAll>>, TError, TData>
-    >
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getDrones>>, TError, TData>>
     request?: SecondParameter<typeof customInstance>
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-  const queryOptions = getDroneControllerGetAllQueryOptions(params, options)
+  const queryOptions = getGetDronesQueryOptions(params, options)
 
   const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
     queryKey: DataTag<QueryKey, TData, TError>
@@ -212,53 +193,51 @@ export function useDroneControllerGetAll<
   return withQueryKey(query, queryOptions.queryKey)
 }
 
-export type droneControllerCreateResponse201 = {
+export type createDroneResponse201 = {
   data: DroneResponseDto
   status: 201
 }
 
-export type droneControllerCreateResponse400 = {
+export type createDroneResponse400 = {
   data: void
   status: 400
 }
 
-export type droneControllerCreateResponse401 = {
+export type createDroneResponse401 = {
   data: void
   status: 401
 }
 
-export type droneControllerCreateResponse500 = {
+export type createDroneResponse500 = {
   data: void
   status: 500
 }
 
-export type droneControllerCreateResponseSuccess = droneControllerCreateResponse201 & {
+export type createDroneResponseSuccess = createDroneResponse201 & {
   headers: Headers
 }
-export type droneControllerCreateResponseError = (
-  | droneControllerCreateResponse400
-  | droneControllerCreateResponse401
-  | droneControllerCreateResponse500
+export type createDroneResponseError = (
+  | createDroneResponse400
+  | createDroneResponse401
+  | createDroneResponse500
 ) & {
   headers: Headers
 }
 
-export type droneControllerCreateResponse =
-  | droneControllerCreateResponseSuccess
-  | droneControllerCreateResponseError
+export type createDroneResponse = createDroneResponseSuccess | createDroneResponseError
 
-export const getDroneControllerCreateUrl = () => {
+export const getCreateDroneUrl = () => {
   return `/drones`
 }
 
 /**
  * @summary Create a drone
  */
-export const droneControllerCreate = async (
+export const createDrone = async (
   createDroneDto: CreateDroneDto,
   options?: RequestInit,
-): Promise<droneControllerCreateResponse> => {
-  return customInstance<droneControllerCreateResponse>(getDroneControllerCreateUrl(), {
+): Promise<createDroneResponse> => {
+  return customInstance<createDroneResponse>(getCreateDroneUrl(), {
     ...options,
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
@@ -266,24 +245,24 @@ export const droneControllerCreate = async (
   })
 }
 
-export const getDroneControllerCreateMutationOptions = <
+export const getCreateDroneMutationOptions = <
   TError = ErrorType<void>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof droneControllerCreate>>,
+    Awaited<ReturnType<typeof createDrone>>,
     TError,
     { data: CreateDroneDto },
     TContext
   >
   request?: SecondParameter<typeof customInstance>
 }): UseMutationOptions<
-  Awaited<ReturnType<typeof droneControllerCreate>>,
+  Awaited<ReturnType<typeof createDrone>>,
   TError,
   { data: CreateDroneDto },
   TContext
 > => {
-  const mutationKey = ['droneControllerCreate']
+  const mutationKey = ['createDrone']
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
       ? options
@@ -291,30 +270,28 @@ export const getDroneControllerCreateMutationOptions = <
     : { mutation: { mutationKey }, request: undefined }
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof droneControllerCreate>>,
+    Awaited<ReturnType<typeof createDrone>>,
     { data: CreateDroneDto }
   > = (props) => {
     const { data } = props ?? {}
 
-    return droneControllerCreate(data, requestOptions)
+    return createDrone(data, requestOptions)
   }
 
   return { mutationFn, ...mutationOptions }
 }
 
-export type DroneControllerCreateMutationResult = NonNullable<
-  Awaited<ReturnType<typeof droneControllerCreate>>
->
-export type DroneControllerCreateMutationBody = CreateDroneDto
-export type DroneControllerCreateMutationError = ErrorType<void>
+export type CreateDroneMutationResult = NonNullable<Awaited<ReturnType<typeof createDrone>>>
+export type CreateDroneMutationBody = CreateDroneDto
+export type CreateDroneMutationError = ErrorType<void>
 
 /**
  * @summary Create a drone
  */
-export const useDroneControllerCreate = <TError = ErrorType<void>, TContext = unknown>(
+export const useCreateDrone = <TError = ErrorType<void>, TContext = unknown>(
   options?: {
     mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof droneControllerCreate>>,
+      Awaited<ReturnType<typeof createDrone>>,
       TError,
       { data: CreateDroneDto },
       TContext
@@ -323,111 +300,94 @@ export const useDroneControllerCreate = <TError = ErrorType<void>, TContext = un
   },
   queryClient?: QueryClient,
 ): UseMutationResult<
-  Awaited<ReturnType<typeof droneControllerCreate>>,
+  Awaited<ReturnType<typeof createDrone>>,
   TError,
   { data: CreateDroneDto },
   TContext
 > => {
-  return useMutation(getDroneControllerCreateMutationOptions(options), queryClient)
+  return useMutation(getCreateDroneMutationOptions(options), queryClient)
 }
-export type droneControllerGetByIdResponse200 = {
+export type getDroneResponse200 = {
   data: DroneResponseDto
   status: 200
 }
 
-export type droneControllerGetByIdResponse404 = {
+export type getDroneResponse404 = {
   data: void
   status: 404
 }
 
-export type droneControllerGetByIdResponse500 = {
+export type getDroneResponse500 = {
   data: void
   status: 500
 }
 
-export type droneControllerGetByIdResponseSuccess = droneControllerGetByIdResponse200 & {
+export type getDroneResponseSuccess = getDroneResponse200 & {
   headers: Headers
 }
-export type droneControllerGetByIdResponseError = (
-  | droneControllerGetByIdResponse404
-  | droneControllerGetByIdResponse500
-) & {
+export type getDroneResponseError = (getDroneResponse404 | getDroneResponse500) & {
   headers: Headers
 }
 
-export type droneControllerGetByIdResponse =
-  | droneControllerGetByIdResponseSuccess
-  | droneControllerGetByIdResponseError
+export type getDroneResponse = getDroneResponseSuccess | getDroneResponseError
 
-export const getDroneControllerGetByIdUrl = (id: string) => {
+export const getGetDroneUrl = (id: string) => {
   return `/drones/${id}`
 }
 
 /**
  * @summary Get a drone by ID
  */
-export const droneControllerGetById = async (
-  id: string,
-  options?: RequestInit,
-): Promise<droneControllerGetByIdResponse> => {
-  return customInstance<droneControllerGetByIdResponse>(getDroneControllerGetByIdUrl(id), {
+export const getDrone = async (id: string, options?: RequestInit): Promise<getDroneResponse> => {
+  return customInstance<getDroneResponse>(getGetDroneUrl(id), {
     ...options,
     method: 'GET',
   })
 }
 
-export const getDroneControllerGetByIdQueryKey = (id: string) => {
+export const getGetDroneQueryKey = (id: string) => {
   return [`/drones/${id}`] as const
 }
 
-export const getDroneControllerGetByIdQueryOptions = <
-  TData = Awaited<ReturnType<typeof droneControllerGetById>>,
+export const getGetDroneQueryOptions = <
+  TData = Awaited<ReturnType<typeof getDrone>>,
   TError = ErrorType<void>,
 >(
   id: string,
   options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof droneControllerGetById>>, TError, TData>
-    >
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getDrone>>, TError, TData>>
     request?: SecondParameter<typeof customInstance>
   },
 ) => {
   const { query: queryOptions, request: requestOptions } = options ?? {}
 
-  const queryKey = queryOptions?.queryKey ?? getDroneControllerGetByIdQueryKey(id)
+  const queryKey = queryOptions?.queryKey ?? getGetDroneQueryKey(id)
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof droneControllerGetById>>> = ({ signal }) =>
-    droneControllerGetById(id, { signal, ...requestOptions })
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getDrone>>> = ({ signal }) =>
+    getDrone(id, { signal, ...requestOptions })
 
   return {
     queryKey,
     queryFn,
     enabled: id !== null && id !== undefined,
     ...queryOptions,
-  } as UseQueryOptions<Awaited<ReturnType<typeof droneControllerGetById>>, TError, TData> & {
+  } as UseQueryOptions<Awaited<ReturnType<typeof getDrone>>, TError, TData> & {
     queryKey: DataTag<QueryKey, TData, TError>
   }
 }
 
-export type DroneControllerGetByIdQueryResult = NonNullable<
-  Awaited<ReturnType<typeof droneControllerGetById>>
->
-export type DroneControllerGetByIdQueryError = ErrorType<void>
+export type GetDroneQueryResult = NonNullable<Awaited<ReturnType<typeof getDrone>>>
+export type GetDroneQueryError = ErrorType<void>
 
-export function useDroneControllerGetById<
-  TData = Awaited<ReturnType<typeof droneControllerGetById>>,
-  TError = ErrorType<void>,
->(
+export function useGetDrone<TData = Awaited<ReturnType<typeof getDrone>>, TError = ErrorType<void>>(
   id: string,
   options: {
-    query: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof droneControllerGetById>>, TError, TData>
-    > &
+    query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getDrone>>, TError, TData>> &
       Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof droneControllerGetById>>,
+          Awaited<ReturnType<typeof getDrone>>,
           TError,
-          Awaited<ReturnType<typeof droneControllerGetById>>
+          Awaited<ReturnType<typeof getDrone>>
         >,
         'initialData'
       >
@@ -435,20 +395,15 @@ export function useDroneControllerGetById<
   },
   queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useDroneControllerGetById<
-  TData = Awaited<ReturnType<typeof droneControllerGetById>>,
-  TError = ErrorType<void>,
->(
+export function useGetDrone<TData = Awaited<ReturnType<typeof getDrone>>, TError = ErrorType<void>>(
   id: string,
   options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof droneControllerGetById>>, TError, TData>
-    > &
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getDrone>>, TError, TData>> &
       Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof droneControllerGetById>>,
+          Awaited<ReturnType<typeof getDrone>>,
           TError,
-          Awaited<ReturnType<typeof droneControllerGetById>>
+          Awaited<ReturnType<typeof getDrone>>
         >,
         'initialData'
       >
@@ -456,15 +411,10 @@ export function useDroneControllerGetById<
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useDroneControllerGetById<
-  TData = Awaited<ReturnType<typeof droneControllerGetById>>,
-  TError = ErrorType<void>,
->(
+export function useGetDrone<TData = Awaited<ReturnType<typeof getDrone>>, TError = ErrorType<void>>(
   id: string,
   options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof droneControllerGetById>>, TError, TData>
-    >
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getDrone>>, TError, TData>>
     request?: SecondParameter<typeof customInstance>
   },
   queryClient?: QueryClient,
@@ -473,20 +423,15 @@ export function useDroneControllerGetById<
  * @summary Get a drone by ID
  */
 
-export function useDroneControllerGetById<
-  TData = Awaited<ReturnType<typeof droneControllerGetById>>,
-  TError = ErrorType<void>,
->(
+export function useGetDrone<TData = Awaited<ReturnType<typeof getDrone>>, TError = ErrorType<void>>(
   id: string,
   options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof droneControllerGetById>>, TError, TData>
-    >
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getDrone>>, TError, TData>>
     request?: SecondParameter<typeof customInstance>
   },
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-  const queryOptions = getDroneControllerGetByIdQueryOptions(id, options)
+  const queryOptions = getGetDroneQueryOptions(id, options)
 
   const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
     queryKey: DataTag<QueryKey, TData, TError>
@@ -495,60 +440,58 @@ export function useDroneControllerGetById<
   return withQueryKey(query, queryOptions.queryKey)
 }
 
-export type droneControllerUpdateResponse200 = {
+export type updateDroneResponse200 = {
   data: DroneResponseDto
   status: 200
 }
 
-export type droneControllerUpdateResponse400 = {
+export type updateDroneResponse400 = {
   data: void
   status: 400
 }
 
-export type droneControllerUpdateResponse401 = {
+export type updateDroneResponse401 = {
   data: void
   status: 401
 }
 
-export type droneControllerUpdateResponse404 = {
+export type updateDroneResponse404 = {
   data: void
   status: 404
 }
 
-export type droneControllerUpdateResponse500 = {
+export type updateDroneResponse500 = {
   data: void
   status: 500
 }
 
-export type droneControllerUpdateResponseSuccess = droneControllerUpdateResponse200 & {
+export type updateDroneResponseSuccess = updateDroneResponse200 & {
   headers: Headers
 }
-export type droneControllerUpdateResponseError = (
-  | droneControllerUpdateResponse400
-  | droneControllerUpdateResponse401
-  | droneControllerUpdateResponse404
-  | droneControllerUpdateResponse500
+export type updateDroneResponseError = (
+  | updateDroneResponse400
+  | updateDroneResponse401
+  | updateDroneResponse404
+  | updateDroneResponse500
 ) & {
   headers: Headers
 }
 
-export type droneControllerUpdateResponse =
-  | droneControllerUpdateResponseSuccess
-  | droneControllerUpdateResponseError
+export type updateDroneResponse = updateDroneResponseSuccess | updateDroneResponseError
 
-export const getDroneControllerUpdateUrl = (id: string) => {
+export const getUpdateDroneUrl = (id: string) => {
   return `/drones/${id}`
 }
 
 /**
  * @summary Update a drone
  */
-export const droneControllerUpdate = async (
+export const updateDrone = async (
   id: string,
   updateDroneDto: UpdateDroneDto,
   options?: RequestInit,
-): Promise<droneControllerUpdateResponse> => {
-  return customInstance<droneControllerUpdateResponse>(getDroneControllerUpdateUrl(id), {
+): Promise<updateDroneResponse> => {
+  return customInstance<updateDroneResponse>(getUpdateDroneUrl(id), {
     ...options,
     method: 'PUT',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
@@ -556,24 +499,24 @@ export const droneControllerUpdate = async (
   })
 }
 
-export const getDroneControllerUpdateMutationOptions = <
+export const getUpdateDroneMutationOptions = <
   TError = ErrorType<void>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof droneControllerUpdate>>,
+    Awaited<ReturnType<typeof updateDrone>>,
     TError,
     { id: string; data: UpdateDroneDto },
     TContext
   >
   request?: SecondParameter<typeof customInstance>
 }): UseMutationOptions<
-  Awaited<ReturnType<typeof droneControllerUpdate>>,
+  Awaited<ReturnType<typeof updateDrone>>,
   TError,
   { id: string; data: UpdateDroneDto },
   TContext
 > => {
-  const mutationKey = ['droneControllerUpdate']
+  const mutationKey = ['updateDrone']
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
       ? options
@@ -581,30 +524,28 @@ export const getDroneControllerUpdateMutationOptions = <
     : { mutation: { mutationKey }, request: undefined }
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof droneControllerUpdate>>,
+    Awaited<ReturnType<typeof updateDrone>>,
     { id: string; data: UpdateDroneDto }
   > = (props) => {
     const { id, data } = props ?? {}
 
-    return droneControllerUpdate(id, data, requestOptions)
+    return updateDrone(id, data, requestOptions)
   }
 
   return { mutationFn, ...mutationOptions }
 }
 
-export type DroneControllerUpdateMutationResult = NonNullable<
-  Awaited<ReturnType<typeof droneControllerUpdate>>
->
-export type DroneControllerUpdateMutationBody = UpdateDroneDto
-export type DroneControllerUpdateMutationError = ErrorType<void>
+export type UpdateDroneMutationResult = NonNullable<Awaited<ReturnType<typeof updateDrone>>>
+export type UpdateDroneMutationBody = UpdateDroneDto
+export type UpdateDroneMutationError = ErrorType<void>
 
 /**
  * @summary Update a drone
  */
-export const useDroneControllerUpdate = <TError = ErrorType<void>, TContext = unknown>(
+export const useUpdateDrone = <TError = ErrorType<void>, TContext = unknown>(
   options?: {
     mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof droneControllerUpdate>>,
+      Awaited<ReturnType<typeof updateDrone>>,
       TError,
       { id: string; data: UpdateDroneDto },
       TContext
@@ -613,114 +554,109 @@ export const useDroneControllerUpdate = <TError = ErrorType<void>, TContext = un
   },
   queryClient?: QueryClient,
 ): UseMutationResult<
-  Awaited<ReturnType<typeof droneControllerUpdate>>,
+  Awaited<ReturnType<typeof updateDrone>>,
   TError,
   { id: string; data: UpdateDroneDto },
   TContext
 > => {
-  return useMutation(getDroneControllerUpdateMutationOptions(options), queryClient)
+  return useMutation(getUpdateDroneMutationOptions(options), queryClient)
 }
-export type droneControllerDeleteResponse204 = {
+export type deleteDroneResponse204 = {
   data: void
   status: 204
 }
 
-export type droneControllerDeleteResponse401 = {
+export type deleteDroneResponse401 = {
   data: void
   status: 401
 }
 
-export type droneControllerDeleteResponse404 = {
+export type deleteDroneResponse404 = {
   data: void
   status: 404
 }
 
-export type droneControllerDeleteResponse500 = {
+export type deleteDroneResponse500 = {
   data: void
   status: 500
 }
 
-export type droneControllerDeleteResponseSuccess = droneControllerDeleteResponse204 & {
+export type deleteDroneResponseSuccess = deleteDroneResponse204 & {
   headers: Headers
 }
-export type droneControllerDeleteResponseError = (
-  | droneControllerDeleteResponse401
-  | droneControllerDeleteResponse404
-  | droneControllerDeleteResponse500
+export type deleteDroneResponseError = (
+  | deleteDroneResponse401
+  | deleteDroneResponse404
+  | deleteDroneResponse500
 ) & {
   headers: Headers
 }
 
-export type droneControllerDeleteResponse =
-  | droneControllerDeleteResponseSuccess
-  | droneControllerDeleteResponseError
+export type deleteDroneResponse = deleteDroneResponseSuccess | deleteDroneResponseError
 
-export const getDroneControllerDeleteUrl = (id: string) => {
+export const getDeleteDroneUrl = (id: string) => {
   return `/drones/${id}`
 }
 
 /**
  * @summary Delete a drone
  */
-export const droneControllerDelete = async (
+export const deleteDrone = async (
   id: string,
   options?: RequestInit,
-): Promise<droneControllerDeleteResponse> => {
-  return customInstance<droneControllerDeleteResponse>(getDroneControllerDeleteUrl(id), {
+): Promise<deleteDroneResponse> => {
+  return customInstance<deleteDroneResponse>(getDeleteDroneUrl(id), {
     ...options,
     method: 'DELETE',
   })
 }
 
-export const getDroneControllerDeleteMutationOptions = <
+export const getDeleteDroneMutationOptions = <
   TError = ErrorType<void>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof droneControllerDelete>>,
+    Awaited<ReturnType<typeof deleteDrone>>,
     TError,
     { id: string },
     TContext
   >
   request?: SecondParameter<typeof customInstance>
 }): UseMutationOptions<
-  Awaited<ReturnType<typeof droneControllerDelete>>,
+  Awaited<ReturnType<typeof deleteDrone>>,
   TError,
   { id: string },
   TContext
 > => {
-  const mutationKey = ['droneControllerDelete']
+  const mutationKey = ['deleteDrone']
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
     : { mutation: { mutationKey }, request: undefined }
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof droneControllerDelete>>,
-    { id: string }
-  > = (props) => {
+  const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteDrone>>, { id: string }> = (
+    props,
+  ) => {
     const { id } = props ?? {}
 
-    return droneControllerDelete(id, requestOptions)
+    return deleteDrone(id, requestOptions)
   }
 
   return { mutationFn, ...mutationOptions }
 }
 
-export type DroneControllerDeleteMutationResult = NonNullable<
-  Awaited<ReturnType<typeof droneControllerDelete>>
->
+export type DeleteDroneMutationResult = NonNullable<Awaited<ReturnType<typeof deleteDrone>>>
 
-export type DroneControllerDeleteMutationError = ErrorType<void>
+export type DeleteDroneMutationError = ErrorType<void>
 
 /**
  * @summary Delete a drone
  */
-export const useDroneControllerDelete = <TError = ErrorType<void>, TContext = unknown>(
+export const useDeleteDrone = <TError = ErrorType<void>, TContext = unknown>(
   options?: {
     mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof droneControllerDelete>>,
+      Awaited<ReturnType<typeof deleteDrone>>,
       TError,
       { id: string },
       TContext
@@ -728,11 +664,6 @@ export const useDroneControllerDelete = <TError = ErrorType<void>, TContext = un
     request?: SecondParameter<typeof customInstance>
   },
   queryClient?: QueryClient,
-): UseMutationResult<
-  Awaited<ReturnType<typeof droneControllerDelete>>,
-  TError,
-  { id: string },
-  TContext
-> => {
-  return useMutation(getDroneControllerDeleteMutationOptions(options), queryClient)
+): UseMutationResult<Awaited<ReturnType<typeof deleteDrone>>, TError, { id: string }, TContext> => {
+  return useMutation(getDeleteDroneMutationOptions(options), queryClient)
 }

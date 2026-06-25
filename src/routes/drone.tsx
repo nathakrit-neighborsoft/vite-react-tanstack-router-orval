@@ -4,14 +4,14 @@ import { Button } from '@/components/ui/button'
 import { authClient, AuthForm } from '@/features/auth'
 import { DroneList, dronesKeys } from '@/features/drones'
 import { sendTestNotification } from '@/features/notifications/notify'
-import { droneControllerGetAll } from '@/lib/api/generated/drones/drones'
+import { getDrones } from '@/lib/api/generated/drones/drones'
 
 export const Route = createFileRoute('/drone')({
   loader: async ({ context }) => {
     try {
       await context.queryClient.ensureQueryData({
         queryKey: dronesKeys.lists(),
-        queryFn: () => droneControllerGetAll(),
+        queryFn: () => getDrones(),
       })
     } catch {
       // user may be unauthenticated — component will gate and show AuthForm

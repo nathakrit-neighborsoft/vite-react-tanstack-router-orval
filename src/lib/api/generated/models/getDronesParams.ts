@@ -5,10 +5,10 @@
  * The Expense API description
  * OpenAPI spec version: 1.0
  */
-import type { DroneControllerGetAllOrder } from './droneControllerGetAllOrder'
-import type { DroneControllerGetAllSort } from './droneControllerGetAllSort'
+import type { GetDronesOrder } from './getDronesOrder'
+import type { GetDronesSort } from './getDronesSort'
 
-export type DroneControllerGetAllParams = {
+export type GetDronesParams = {
   /**
    * Search term for company, model, or full name
    */
@@ -16,11 +16,11 @@ export type DroneControllerGetAllParams = {
   /**
    * Sort field
    */
-  sort?: DroneControllerGetAllSort
+  sort?: GetDronesSort
   /**
    * Sort order
    */
-  order?: DroneControllerGetAllOrder
+  order?: GetDronesOrder
   /**
    * Page number (starts from 1)
    */
