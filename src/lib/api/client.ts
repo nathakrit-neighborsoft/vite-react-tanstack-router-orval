@@ -1,5 +1,5 @@
 import { treaty } from '@elysiajs/eden'
-import { env } from '@/env'
+import { env } from '@/lib/env'
 import type { App } from './server'
 
 // Eden treaty จะต่อ path ตาม route ของ server ให้เอง (api.api.drone.get() → /api/drone)
