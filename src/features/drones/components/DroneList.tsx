@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useDrones } from '../hooks/use-drones'
 import { Button } from '@/components/ui/button'
+import { sendTestNotification } from '@/features/notifications/notify'
 import { DroneFormDialog } from './DroneFormDialog'
 import { DeleteDroneDialog } from './DeleteDroneDialog'
 
@@ -22,6 +23,7 @@ export function DroneList({ onSignOut }: { onSignOut?: () => void }) {
   const [formOpen, setFormOpen] = useState(false)
   const [editing, setEditing] = useState<Drone | null>(null)
   const [deleting, setDeleting] = useState<Drone | null>(null)
+  const canSendNotifications = '__TAURI_INTERNALS__' in window
 
   if (dronesQuery.isLoading) return <p>Loading drones…</p>
   if (dronesQuery.isError) return <p className="text-red-600">Error: {String(dronesQuery.error)}</p>
@@ -41,6 +43,11 @@ export function DroneList({ onSignOut }: { onSignOut?: () => void }) {
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-xl font-bold">Drones</h2>
         <div className="flex gap-2">
+          {canSendNotifications && (
+            <Button variant="outline" onClick={() => sendTestNotification().catch(() => {})}>
+              Test notification
+            </Button>
+          )}
           <Button onClick={openCreate}>Add drone</Button>
           <Button variant="outline" onClick={() => onSignOut?.()}>
             Sign out

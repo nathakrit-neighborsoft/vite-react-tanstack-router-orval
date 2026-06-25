@@ -6,7 +6,7 @@
   "build": {
     "frontendDist": "../dist",
     "devUrl": "http://localhost:3000",
-    "beforeDevCommand": "bun run dev",
+    "beforeDevCommand": "VITE_API_URL=https://dreamlike-ogle-dawn.ngrok-free.dev bun run dev",
     "beforeBuildCommand": "bun run build"
   },
   "app": {
