@@ -13,7 +13,7 @@ import { useDeleteDrone } from '../hooks/use-drone-mutations'
 type Props = {
   open: boolean
   onOpenChange: (open: boolean) => void
-  drone: { id: number; company: string; model: string } | null
+  drone: { uuid: string; company: string; model: string } | null
 }
 
 export function DeleteDroneDialog({ open, onOpenChange, drone }: Props) {
@@ -22,7 +22,7 @@ export function DeleteDroneDialog({ open, onOpenChange, drone }: Props) {
   async function handleConfirm() {
     if (!drone) return
     try {
-      await remove.mutateAsync(drone.id)
+      await remove.mutateAsync({ id: drone.uuid })
       onOpenChange(false)
     } catch {
       // error handled via mutation state

@@ -9,6 +9,8 @@ dist/
 .env
 .env.local
 .env.*.local
+.env.production
+
 
 # editor / OS
 .DS_Store
@@ -31,3 +33,5 @@ src/lib/api/server.d.ts
 
 # superpowers
 docs/superpowers/
+
+.orval-spec.json

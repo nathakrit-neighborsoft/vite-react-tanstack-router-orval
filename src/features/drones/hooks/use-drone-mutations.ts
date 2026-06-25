@@ -1,51 +1,33 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { api } from '@/lib/api/client'
-import { handleEdenResponse } from '@/lib/api/eden-helpers'
+import { useQueryClient } from '@tanstack/react-query'
+import {
+  useDroneControllerCreate,
+  useDroneControllerUpdate,
+  useDroneControllerDelete,
+} from '@/lib/api/generated/drones/drones'
+import type { CreateDroneDto } from '@/lib/api/generated/models'
 import { dronesKeys } from '../api/keys'
 
-export type CreateDroneInput = {
-  company: string
-  model: string
-  fullName: string
-  priceRTF: number
-  tankCapacity: number
-  flightSpeed: number
-  sprayWidth: number
-  coveragePerDay: number
-  rtfEquipment: string
-}
+export type CreateDroneInput = CreateDroneDto
 
-export type UpdateDroneInput = Partial<CreateDroneInput>
+export type UpdateDroneInput = Partial<CreateDroneDto>
 
 export function useCreateDrone() {
   const qc = useQueryClient()
-  return useMutation({
-    mutationFn: async (input: CreateDroneInput) => {
-      const res = await api.api.drone.post(input)
-      return handleEdenResponse({ result: res, fallbackMessage: 'Create failed' })
-    },
-    onSuccess: () => qc.invalidateQueries({ queryKey: dronesKeys.all }),
+  return useDroneControllerCreate({
+    mutation: { onSuccess: () => qc.invalidateQueries({ queryKey: dronesKeys.all }) },
   })
 }
 
 export function useUpdateDrone() {
   const qc = useQueryClient()
-  return useMutation({
-    mutationFn: async ({ id, input }: { id: number; input: UpdateDroneInput }) => {
-      const res = await api.api.drone({ id }).patch(input)
-      return handleEdenResponse({ result: res, fallbackMessage: 'Update failed' })
-    },
-    onSuccess: () => qc.invalidateQueries({ queryKey: dronesKeys.all }),
+  return useDroneControllerUpdate({
+    mutation: { onSuccess: () => qc.invalidateQueries({ queryKey: dronesKeys.all }) },
   })
 }
 
 export function useDeleteDrone() {
   const qc = useQueryClient()
-  return useMutation({
-    mutationFn: async (id: number) => {
-      const res = await api.api.drone({ id }).delete()
-      return handleEdenResponse({ result: res, fallbackMessage: 'Delete failed' })
-    },
-    onSuccess: () => qc.invalidateQueries({ queryKey: dronesKeys.all }),
+  return useDroneControllerDelete({
+    mutation: { onSuccess: () => qc.invalidateQueries({ queryKey: dronesKeys.all }) },
   })
 }
