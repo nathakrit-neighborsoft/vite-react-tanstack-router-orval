@@ -122,6 +122,34 @@ docker run --rm -p 8080:80 drone-client
 
 The included `nginx.conf` serves the SPA and proxies API traffic to an upstream service named `api` on port `3050`.
 
+## Tauri desktop & Android builds
+
+The app can also run as a native Tauri 2 desktop window or Android APK.
+
+### Prerequisites
+
+- [Rust](https://www.rust-lang.org/tools/install) (via rustup, including Android targets)
+- [Android Studio](https://developer.android.com/studio) with:
+  - Android SDK Platform 35+
+  - NDK (installed via SDK Manager)
+  - Java (Android Studio bundles a JRE at `<studio>/jbr`)
+- Tauri [system dependencies](https://v2.tauri.app/start/prerequisites/)
+
+### Commands
+
+| Command                       | Description                                     |
+| ----------------------------- | ----------------------------------------------- |
+| `bun run tauri:dev`           | Start Tauri dev shell (desktop)                 |
+| `bun run tauri:build`         | Build native desktop bundle                     |
+| `bun run tauri:android:init`  | Initialize Android project under `src-tauri/`   |
+| `bun run tauri:android:dev`   | Build and run on connected Android device/emulator |
+| `bun run tauri:android:build` | Build release APK/AAB                           |
+
+### Notes
+
+- Android builds use the same Vite dev/build pipeline as the web app.
+- Backend API/auth on a physical Android device may require setting a reachable backend origin instead of relying on `localhost` or the Vite dev proxy. This is **not** configured in the current setup; configure `VITE_API_URL` to point to an accessible backend when running on device.
+
 ## Troubleshooting
 
 - **Auth or drone requests fail in dev**: confirm the backend is running on `http://localhost:3050`.
