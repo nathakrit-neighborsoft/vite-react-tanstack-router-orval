@@ -4,12 +4,12 @@ import {
   useUpdateDrone as useGenUpdateDrone,
   useDeleteDrone as useGenDeleteDrone,
 } from '@/lib/api/generated/drones/drones'
-import type { CreateDroneDto } from '@/lib/api/generated/models'
+import type { CreateDrone } from '@/lib/api/generated/models'
 import { dronesKeys } from '../api/keys'
 
-export type CreateDroneInput = CreateDroneDto
+export type CreateDroneInput = CreateDrone
 
-export type UpdateDroneInput = Partial<CreateDroneDto>
+export type UpdateDroneInput = Partial<CreateDrone>
 
 export function useCreateDrone() {
   const qc = useQueryClient()

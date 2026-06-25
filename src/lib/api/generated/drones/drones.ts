@@ -21,7 +21,7 @@ import type {
   UseQueryResult,
 } from '@tanstack/react-query'
 
-import type { CreateDroneDto, DroneResponseDto, GetDronesParams, UpdateDroneDto } from '../models'
+import type { CreateDrone, DroneResponse, GetDronesParams, UpdateDrone } from '../models'
 
 import { customInstance } from '../../mutator'
 import type { ErrorType } from '../../mutator'
@@ -44,7 +44,7 @@ const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKe
 }
 
 export type getDronesResponse200 = {
-  data: DroneResponseDto[]
+  data: DroneResponse[]
   status: 200
 }
 
@@ -194,7 +194,7 @@ export function useGetDrones<
 }
 
 export type createDroneResponse201 = {
-  data: DroneResponseDto
+  data: DroneResponse
   status: 201
 }
 
@@ -234,14 +234,14 @@ export const getCreateDroneUrl = () => {
  * @summary Create a drone
  */
 export const createDrone = async (
-  createDroneDto: CreateDroneDto,
+  createDrone: CreateDrone,
   options?: RequestInit,
 ): Promise<createDroneResponse> => {
   return customInstance<createDroneResponse>(getCreateDroneUrl(), {
     ...options,
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(createDroneDto),
+    body: JSON.stringify(createDrone),
   })
 }
 
@@ -252,14 +252,14 @@ export const getCreateDroneMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof createDrone>>,
     TError,
-    { data: CreateDroneDto },
+    { data: CreateDrone },
     TContext
   >
   request?: SecondParameter<typeof customInstance>
 }): UseMutationOptions<
   Awaited<ReturnType<typeof createDrone>>,
   TError,
-  { data: CreateDroneDto },
+  { data: CreateDrone },
   TContext
 > => {
   const mutationKey = ['createDrone']
@@ -271,7 +271,7 @@ export const getCreateDroneMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof createDrone>>,
-    { data: CreateDroneDto }
+    { data: CreateDrone }
   > = (props) => {
     const { data } = props ?? {}
 
@@ -282,7 +282,7 @@ export const getCreateDroneMutationOptions = <
 }
 
 export type CreateDroneMutationResult = NonNullable<Awaited<ReturnType<typeof createDrone>>>
-export type CreateDroneMutationBody = CreateDroneDto
+export type CreateDroneMutationBody = CreateDrone
 export type CreateDroneMutationError = ErrorType<void>
 
 /**
@@ -293,7 +293,7 @@ export const useCreateDrone = <TError = ErrorType<void>, TContext = unknown>(
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof createDrone>>,
       TError,
-      { data: CreateDroneDto },
+      { data: CreateDrone },
       TContext
     >
     request?: SecondParameter<typeof customInstance>
@@ -302,13 +302,13 @@ export const useCreateDrone = <TError = ErrorType<void>, TContext = unknown>(
 ): UseMutationResult<
   Awaited<ReturnType<typeof createDrone>>,
   TError,
-  { data: CreateDroneDto },
+  { data: CreateDrone },
   TContext
 > => {
   return useMutation(getCreateDroneMutationOptions(options), queryClient)
 }
 export type getDroneResponse200 = {
-  data: DroneResponseDto
+  data: DroneResponse
   status: 200
 }
 
@@ -441,7 +441,7 @@ export function useGetDrone<TData = Awaited<ReturnType<typeof getDrone>>, TError
 }
 
 export type updateDroneResponse200 = {
-  data: DroneResponseDto
+  data: DroneResponse
   status: 200
 }
 
@@ -488,14 +488,14 @@ export const getUpdateDroneUrl = (id: string) => {
  */
 export const updateDrone = async (
   id: string,
-  updateDroneDto: UpdateDroneDto,
+  updateDrone: UpdateDrone,
   options?: RequestInit,
 ): Promise<updateDroneResponse> => {
   return customInstance<updateDroneResponse>(getUpdateDroneUrl(id), {
     ...options,
     method: 'PUT',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(updateDroneDto),
+    body: JSON.stringify(updateDrone),
   })
 }
 
@@ -506,14 +506,14 @@ export const getUpdateDroneMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof updateDrone>>,
     TError,
-    { id: string; data: UpdateDroneDto },
+    { id: string; data: UpdateDrone },
     TContext
   >
   request?: SecondParameter<typeof customInstance>
 }): UseMutationOptions<
   Awaited<ReturnType<typeof updateDrone>>,
   TError,
-  { id: string; data: UpdateDroneDto },
+  { id: string; data: UpdateDrone },
   TContext
 > => {
   const mutationKey = ['updateDrone']
@@ -525,7 +525,7 @@ export const getUpdateDroneMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof updateDrone>>,
-    { id: string; data: UpdateDroneDto }
+    { id: string; data: UpdateDrone }
   > = (props) => {
     const { id, data } = props ?? {}
 
@@ -536,7 +536,7 @@ export const getUpdateDroneMutationOptions = <
 }
 
 export type UpdateDroneMutationResult = NonNullable<Awaited<ReturnType<typeof updateDrone>>>
-export type UpdateDroneMutationBody = UpdateDroneDto
+export type UpdateDroneMutationBody = UpdateDrone
 export type UpdateDroneMutationError = ErrorType<void>
 
 /**
@@ -547,7 +547,7 @@ export const useUpdateDrone = <TError = ErrorType<void>, TContext = unknown>(
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof updateDrone>>,
       TError,
-      { id: string; data: UpdateDroneDto },
+      { id: string; data: UpdateDrone },
       TContext
     >
     request?: SecondParameter<typeof customInstance>
@@ -556,7 +556,7 @@ export const useUpdateDrone = <TError = ErrorType<void>, TContext = unknown>(
 ): UseMutationResult<
   Awaited<ReturnType<typeof updateDrone>>,
   TError,
-  { id: string; data: UpdateDroneDto },
+  { id: string; data: UpdateDrone },
   TContext
 > => {
   return useMutation(getUpdateDroneMutationOptions(options), queryClient)

@@ -6,9 +6,9 @@
  * OpenAPI spec version: 1.0
  */
 
-export * from './createDroneDto'
-export * from './droneResponseDto'
+export * from './createDrone'
+export * from './droneResponse'
 export * from './getDronesOrder'
 export * from './getDronesParams'
 export * from './getDronesSort'
-export * from './updateDroneDto'
+export * from './updateDrone'

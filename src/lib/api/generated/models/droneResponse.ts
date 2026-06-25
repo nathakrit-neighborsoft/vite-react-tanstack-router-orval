@@ -6,7 +6,7 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface DroneResponseDto {
+export interface DroneResponse {
   uuid: string
   company: string
   model: string

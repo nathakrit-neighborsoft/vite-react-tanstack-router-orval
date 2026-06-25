@@ -6,38 +6,38 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface UpdateDroneDto {
+export interface CreateDrone {
   /** Drone manufacturer company */
-  company?: string
+  company: string
   /** Drone model name */
-  model?: string
+  model: string
   /** Full name of the drone */
-  fullName?: string
+  fullName: string
   /**
    * Price RTF
    * @minimum 0
    */
-  priceRTF?: number
+  priceRTF: number
   /**
    * Tank capacity (L)
    * @minimum 0
    */
-  tankCapacity?: number
+  tankCapacity: number
   /**
    * Flight speed (m/s)
    * @minimum 0
    */
-  flightSpeed?: number
+  flightSpeed: number
   /**
    * Spray width (m)
    * @minimum 0
    */
-  sprayWidth?: number
+  sprayWidth: number
   /**
    * Coverage per day (ha)
    * @minimum 0
    */
-  coveragePerDay?: number
+  coveragePerDay: number
   /** RTF equipment details */
   rtfEquipment?: string
 }
