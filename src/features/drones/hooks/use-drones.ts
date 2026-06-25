@@ -1,7 +1,12 @@
-import { useEdenQuery } from '@/lib/api/use-eden-query'
-import { api } from '@/lib/api/client'
+import { useDroneControllerGetAll } from '@/lib/api/generated/drones/drones'
 import { dronesKeys } from '../api/keys'
 
 export function useDrones() {
-  return useEdenQuery(dronesKeys.lists(), () => api.api.drone.get())
+  const dronesQuery = useDroneControllerGetAll()
+  return {
+    ...dronesQuery,
+    data: dronesQuery.data?.data,
+  }
 }
+
+export { dronesKeys }

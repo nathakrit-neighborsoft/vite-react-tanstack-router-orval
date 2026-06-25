@@ -33,12 +33,8 @@ vi.mock('@/features/notifications/notify', () => ({
   sendTestNotification,
 }))
 
-vi.mock('@/lib/api/client', () => ({
-  api: { api: { drone: { get: vi.fn() } } },
-}))
-
-vi.mock('@/lib/api/eden-helpers', () => ({
-  handleEdenResponse: vi.fn(),
+vi.mock('@/lib/api/generated/drones/drones', () => ({
+  droneControllerGetAll: vi.fn(),
 }))
 
 describe('/drone route', () => {

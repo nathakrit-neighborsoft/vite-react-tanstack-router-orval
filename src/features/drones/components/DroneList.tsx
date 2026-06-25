@@ -6,7 +6,7 @@ import { DroneFormDialog } from './DroneFormDialog'
 import { DeleteDroneDialog } from './DeleteDroneDialog'
 
 type Drone = {
-  id: number
+  uuid: string
   company: string
   model: string
   fullName: string
@@ -56,7 +56,7 @@ export function DroneList({ onSignOut }: { onSignOut?: () => void }) {
       </div>
       <ul className="grid gap-3 sm:grid-cols-2">
         {dronesQuery.data?.map((d) => (
-          <li key={d.id} className="rounded-lg border p-3">
+          <li key={d.uuid} className="rounded-lg border p-3">
             <div className="flex items-start justify-between gap-2">
               <div>
                 <p className="font-semibold">

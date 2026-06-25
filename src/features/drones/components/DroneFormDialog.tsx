@@ -9,7 +9,7 @@ import { DroneForm, type DroneFormValues } from './DroneForm'
 import { useCreateDrone, useUpdateDrone } from '../hooks/use-drone-mutations'
 
 type DroneLike = {
-  id: number
+  uuid: string
   company: string
   model: string
   fullName: string
@@ -35,15 +35,17 @@ export function DroneFormDialog({ open, onOpenChange, drone }: Props) {
   async function handleSubmit(values: DroneFormValues) {
     try {
       if (isEdit && drone) {
-        await update.mutateAsync({ id: drone.id, input: values })
+        await update.mutateAsync({ id: drone.uuid, data: values })
       } else {
-        await create.mutateAsync(values)
+        await create.mutateAsync({ data: values })
       }
       onOpenChange(false)
     } catch {
       // error surfaced via mutation.error
     }
   }
+
+  const mutationError = (isEdit ? update.error : create.error) as Error | null
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -57,7 +59,7 @@ export function DroneFormDialog({ open, onOpenChange, drone }: Props) {
         <DroneForm
           initial={drone ?? undefined}
           submitting={isEdit ? update.isPending : create.isPending}
-          error={(isEdit ? update.error : create.error)?.message ?? null}
+          error={mutationError?.message ?? null}
           onSubmit={handleSubmit}
         />
       </DialogContent>

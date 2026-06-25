@@ -4,19 +4,14 @@ import { Button } from '@/components/ui/button'
 import { authClient, AuthForm } from '@/features/auth'
 import { DroneList, dronesKeys } from '@/features/drones'
 import { sendTestNotification } from '@/features/notifications/notify'
-import { api } from '@/lib/api/client'
-import { handleEdenResponse } from '@/lib/api/eden-helpers'
+import { droneControllerGetAll } from '@/lib/api/generated/drones/drones'
 
 export const Route = createFileRoute('/drone')({
   loader: async ({ context }) => {
     try {
       await context.queryClient.ensureQueryData({
         queryKey: dronesKeys.lists(),
-        queryFn: async () =>
-          handleEdenResponse({
-            result: await api.api.drone.get(),
-            fallbackMessage: 'Request failed',
-          }),
+        queryFn: () => droneControllerGetAll(),
       })
     } catch {
       // user may be unauthenticated — component will gate and show AuthForm
