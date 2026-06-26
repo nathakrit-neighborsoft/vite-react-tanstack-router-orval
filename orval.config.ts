@@ -15,7 +15,7 @@ export default defineConfig({
       mock: false,
       override: {
         mutator: { path: 'src/lib/api/mutator.ts', name: 'customInstance' },
-        query: { useInfinite: false, options: {} },
+        query: { useInfinite: false },
       },
     },
     hooks: { afterAllFilesWrite: 'prettier --write' },
