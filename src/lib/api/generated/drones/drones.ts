@@ -21,7 +21,7 @@ import type {
   UseQueryResult,
 } from '@tanstack/react-query'
 
-import type { CreateDrone, DroneResponse, GetDronesParams, UpdateDrone } from '../models'
+import type { CreateDrone, Drone, GetDronesParams, UpdateDrone } from '../models'
 
 import { customInstance } from '../../mutator'
 import type { ErrorType } from '../../mutator'
@@ -44,7 +44,7 @@ const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKe
 }
 
 export type getDronesResponse200 = {
-  data: DroneResponse[]
+  data: Drone[]
   status: 200
 }
 
@@ -194,7 +194,7 @@ export function useGetDrones<
 }
 
 export type createDroneResponse201 = {
-  data: DroneResponse
+  data: Drone
   status: 201
 }
 
@@ -308,7 +308,7 @@ export const useCreateDrone = <TError = ErrorType<void>, TContext = unknown>(
   return useMutation(getCreateDroneMutationOptions(options), queryClient)
 }
 export type getDroneResponse200 = {
-  data: DroneResponse
+  data: Drone
   status: 200
 }
 
@@ -441,7 +441,7 @@ export function useGetDrone<TData = Awaited<ReturnType<typeof getDrone>>, TError
 }
 
 export type updateDroneResponse200 = {
-  data: DroneResponse
+  data: Drone
   status: 200
 }
 

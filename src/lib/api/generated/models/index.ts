@@ -7,7 +7,7 @@
  */
 
 export * from './createDrone'
-export * from './droneResponse'
+export * from './drone'
 export * from './getDronesOrder'
 export * from './getDronesParams'
 export * from './getDronesSort'
