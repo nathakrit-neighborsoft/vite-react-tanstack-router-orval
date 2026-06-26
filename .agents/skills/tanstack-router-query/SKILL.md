@@ -20,7 +20,7 @@ File-based routing (TanStack Router) + server state management (TanStack Query).
 
 - React Query client is passed via router context (`context.queryClient`).
 - Route loaders can use `context.queryClient.ensureQueryData(...)` for prefetch.
-- Use `@/lib/api/use-eden-query` wrapper instead of raw `useQuery` for API calls.
+- Use Orval-generated hooks from `src/lib/api/generated/` for API calls (e.g. `useGetDrones`, `getDrones` for prefetch).
 
 ## Query keys
 
@@ -31,16 +31,21 @@ export const dronesKeys = {
   all: ['drones'] as const,
   lists: () => [...dronesKeys.all, 'list'] as const,
   details: () => [...dronesKeys.all, 'detail'] as const,
-  detail: (id: number) => [...dronesKeys.details(), id] as const,
+  detail: (uuid: string) => [...dronesKeys.details(), uuid] as const,
 }
 ```
 
 ## Mutation invalidation
 
-Always invalidate after mutations:
+Feature hooks wrap generated mutation hooks with invalidation:
 
 ```typescript
-onSuccess: () => qc.invalidateQueries({ queryKey: dronesKeys.all })
+export function useCreateDrone() {
+  const qc = useQueryClient()
+  return useGenCreateDrone({
+    mutation: { onSuccess: () => qc.invalidateQueries({ queryKey: dronesKeys.all }) },
+  })
+}
 ```
 
 ## Type safety

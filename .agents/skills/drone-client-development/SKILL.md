@@ -1,13 +1,13 @@
 ---
 name: drone-client-development
-description: Use when working in this vite-react-tanstack-router-eden Drone frontend repo, especially before editing app code, docs, scripts, or project structure.
+description: Use when working in this vite-react-tanstack-router-orval Drone frontend repo, especially before editing app code, docs, scripts, or project structure.
 ---
 
 # Drone Client Development
 
 ## Overview
 
-Guide for working in the Drone frontend client repo.
+Guide for working in the Drone frontend client repo. Orval + TanStack Router + Better Auth stack with Tauri support.
 
 ## Before editing
 
@@ -19,8 +19,9 @@ Guide for working in the Drone frontend client repo.
 
 - Use Bun for all scripts (`bun` not `npm`/`yarn`/`pnpm`).
 - Keep changes minimal and focused. No broad refactors.
-- Do not edit generated files (`routeTree.gen.ts`, `server.d.ts`).
+- Do not edit generated files (`routeTree.gen.ts`, `src/lib/api/generated/**`, `.orval-spec.json`).
 - Keep routes thin; app logic in `src/features/*`.
+- Env lives in `src/lib/env.ts`.
 
 ## Verification
 
