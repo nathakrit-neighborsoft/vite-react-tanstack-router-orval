@@ -9,6 +9,9 @@ pre-commit:
       glob: '*.{ts,tsx}'
       name: '📝 Lint'
 
+    - run: bun run tsc --noEmit
+      name: '🔍 Type check'
+
     - run: bun run test:coverage
       name: '🧪 API test coverage'
 
