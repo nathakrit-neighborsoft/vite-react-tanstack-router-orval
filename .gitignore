@@ -31,6 +31,9 @@ src/lib/api/server.d.ts
 # codegraph
 .codegraph/
 
+#.serena
+.serena
+
 # superpowers
 docs/superpowers/
 
