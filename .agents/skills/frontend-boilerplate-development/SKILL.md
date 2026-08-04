@@ -1,31 +1,30 @@
 ---
 name: frontend-boilerplate-development
-description: Use when working in this Vite + React + TanStack Router + Orval starter, especially before editing application code, documentation, scripts, or project structure.
+description: Use when changing this Vite + React + TanStack Router + TanStack Query + Orval boilerplate, including features, routes, API integration, configuration, scripts, or documentation.
 ---
 
-# Frontend Boilerplate Development
+# Developing the Frontend Boilerplate
 
 ## Overview
 
-Treat this repository as a reusable frontend foundation. Domain-shaped code already present is sample/template material, not a product contract.
+Treat this repository as a reusable template. Existing domain-shaped code is sample material; the request defines the product domain.
 
-## Before editing
+## Workflow
 
-1. Read `agents.md`, `README.md`, and the relevant config/source. **Done when** the stack, scripts, generated boundaries, and task scope are known.
-2. Search for an existing pattern before adding one. **Done when** the target implementation and affected callers are identified.
-3. Derive names, routes, API tags, and query keys from the request. **Done when** no sample-domain assumption is driving the change.
+1. **Scope the request.** Name the observable behavior, affected layer, and verification target. **Done when** the acceptance criteria contain no unexplained sample-domain assumptions.
+2. **Discover the foundation.** Read `AGENTS.md`, `README.md`, the relevant config, and nearby source; search for an existing pattern before adding one. Confirm the package manager, scripts, entry points, generated boundaries, owner feature, callers, and tests. **Done when** every planned edit has a concrete path and reason.
+3. **Keep ownership local.** Keep TanStack Router route files thin and put domain logic under `src/features/<feature>/`. Keep feature API wrappers, query keys, mutation invalidation, and feature tests with their owner. **Done when** each new symbol has one owner and route files only compose feature behavior.
+4. **Implement template-safe.** Derive names, routes, API tags, and query keys from the request. Read `VITE_*` values through `src/lib/env.ts`. Use Bun and existing project scripts. **Done when** the change does not copy sample identity or introduce an unnecessary dependency or abstraction.
+5. **Respect generated boundaries.** Treat `src/routeTree.gen.ts`, `src/lib/api/generated/**`, and `.orval-spec.json` as generated outputs. Change their source/config and use the existing route plugin or `bun run gen:types`; do not hand-edit outputs. **Done when** every generated diff is reproducible from its source and the generator result is recorded.
+6. **Verify the smallest useful surface.** Run the narrowest relevant test/check, then inspect the final diff. **Done when** the check passes (or its environment blocker is reported) and only requested files changed.
 
-## Keep the template tight
+## Verification map
 
-- Use Bun and the existing project scripts.
-- Keep TanStack Router route files thin; put domain logic under `src/features/<feature>/`.
-- Read Vite environment values through `src/lib/env.ts`.
-- Treat `src/routeTree.gen.ts`, `src/lib/api/generated/**`, and `.orval-spec.json` as generated. Regenerate them with the existing script instead of hand-editing them.
-- Keep API/query wrappers and invalidation keys with their feature. Do not copy names from an existing sample feature into a new feature.
-- Preserve the current stack and user changes. Add dependencies only when the task requires one.
-
-## Verification
-
-- Documentation or skill change: inspect the diff and confirm no stale domain-specific identity remains.
-- TypeScript: `bun run typecheck`; lint: `bun run lint`; formatting: `bun run format:check`; tests: `bun run test`; production build: `bun run build`.
-- Run only checks relevant to the changed files. The work is ready when the smallest relevant checks pass and the diff contains only requested files.
+| Change                             | Check                                                             |
+| ---------------------------------- | ----------------------------------------------------------------- |
+| TypeScript or route/API code       | `bun run typecheck`                                               |
+| Behavior or tests                  | targeted test, then `bun run test` when scope is broad            |
+| Lint or formatting-sensitive files | `bun run lint` and/or `bun run format:check`                      |
+| Production wiring                  | `bun run build`                                                   |
+| Generated API or route output      | required generator first, then the checks above                   |
+| Skill, README, or other docs       | inspect diff; confirm paths, commands, and domain-neutral wording |
