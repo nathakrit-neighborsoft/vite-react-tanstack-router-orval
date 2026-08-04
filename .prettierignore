@@ -2,5 +2,8 @@ node_modules
 dist
 bun.lock
 coverage
+src/lib/api/generated
 src/lib/api/server.d.ts
 src/routeTree.gen.ts
+src-tauri/gen
+src-tauri/target
