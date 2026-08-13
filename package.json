@@ -12,7 +12,7 @@
     "test:coverage": "vitest --coverage --run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
-    "gen:types": "curl -s http://localhost:9009/api-json | jq 'del(.paths.\"/api/auth/{path}\")' > .orval-spec.json && orval --config ./orval.config.ts",
+    "gen:types": "bun scripts/transform-openapi.mjs && orval --config ./orval.config.ts",
     "lint": "oxlint .",
     "lint:fix": "oxlint --fix .",
     "format": "prettier --write .",

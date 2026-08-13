@@ -4,7 +4,6 @@ export default defineConfig({
   api: {
     input: {
       target: './.orval-spec.json',
-      filters: { tags: ['drones'] },
     },
     output: {
       mode: 'tags-split',
