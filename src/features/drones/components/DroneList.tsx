@@ -4,19 +4,7 @@ import { Button } from '@/components/ui/button'
 import { sendTestNotification } from '@/features/notifications/notify'
 import { DroneFormDialog } from './DroneFormDialog'
 import { DeleteDroneDialog } from './DeleteDroneDialog'
-
-type Drone = {
-  uuid: string
-  company: string
-  model: string
-  fullName: string
-  priceRTF: number
-  tankCapacity: number
-  flightSpeed: number
-  sprayWidth: number
-  coveragePerDay: number
-  rtfEquipment: string
-}
+import type { Drone } from '@/lib/api/generated/models/drone'
 
 export function DroneList({ onSignOut }: { onSignOut?: () => void }) {
   const dronesQuery = useDrones()
