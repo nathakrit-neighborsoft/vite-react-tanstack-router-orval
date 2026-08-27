@@ -6,6 +6,8 @@ export default defineConfig({
       target: './.orval-spec.json',
     },
     output: {
+      clean: true,
+      namingConvention: 'kebab-case',
       mode: 'tags-split',
       target: 'src/lib/api/generated',
       schemas: 'src/lib/api/generated/models',
