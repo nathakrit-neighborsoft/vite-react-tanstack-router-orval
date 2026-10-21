@@ -86,7 +86,7 @@ This fetches `http://localhost:9009/api-json`, strips `^/api/auth/{path}$` with 
 | `bun run test`         | Run Vitest once                                            |
 | `bun run test:coverage`| Run Vitest with coverage report                            |
 | `bun run test:watch`   | Run Vitest in watch mode                                   |
-| `bun run typecheck`    | Run `tsc --noEmit`                                         |
+| `bun run typecheck`    | Run `tsrs --noEmit`                                        |
 | `bun run gen:types`    | Fetch OpenAPI spec and regenerate Orval client             |
 | `bun run lint`         | Run oxlint                                                  |
 | `bun run lint:fix`     | Run oxlint with fixes                                      |
